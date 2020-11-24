@@ -13,6 +13,6 @@ UNION ALL
 SELECT count(distinct macrovisit_id) AS result, 'count_macro_v' as stat
 FROM Filterwithcodesetaliastable
 UNION ALL
-SELECT count(distinct alias) AS result, 'count_labs' as stat
+SELECT count(distinct Alias) AS result, 'count_labs' as stat
 FROM Filterwithcodesetaliastable
 
