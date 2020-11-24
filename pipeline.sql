@@ -1,6 +1,20 @@
 
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.850d6c9e-d8b0-4dd1-bad4-2b41be2a49d5"),
+    Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
+)
+SELECT o.*, mv.num_vist_w_obs FROM
+(SELECT count(1) as num_obs, Alias as alias
+FROM Filterwithcodesetaliastable
+group by Alias) o
+LEFT JOIN (
+    SELECT count(distinct visit_occurrence_id) as num_vist_w_obs, Alias as alias
+    FROM Filterwithcodesetaliastable
+    group by Alias) mv
+on o.alias = mv.alias
+
+@transform_pandas(
     Output(rid="ri.vector.main.execute.e971485e-0f1e-446b-99ad-68b2f21a8048"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
 )
@@ -15,18 +29,4 @@ FROM Filterwithcodesetaliastable
 UNION ALL
 SELECT count(distinct Alias) AS result, 'count_labs' as stat
 FROM Filterwithcodesetaliastable
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.850d6c9e-d8b0-4dd1-bad4-2b41be2a49d5"),
-    Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
-)
-SELECT o.*, mv.num_vist_w_obs FROM
-(SELECT count(1) as num_obs, Alias as alias
-FROM Filterwithcodesetaliastable
-group by Alias) o
-LEFT JOIN (
-    SELECT count(distinct macrovisit_id) as num_vist_w_obs, Alias as alias
-    FROM Filterwithcodesetaliastable
-    group by Alias) mv
-on o.alias = mv.alias
 
