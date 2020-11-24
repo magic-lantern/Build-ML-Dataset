@@ -4,7 +4,7 @@
     Output(rid="ri.foundry.main.dataset.bdcd1f3c-5c7e-4297-a45d-1ed1011fb591"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
 )
-SELECT o.*, mv.num_vist_w_obs FROM
+SELECT o.num_obs, mv.num_vist_w_obs, o.alias FROM
 (SELECT count(1) as num_obs, Alias as alias
 FROM Filterwithcodesetaliastable
 group by Alias) o
