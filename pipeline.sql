@@ -20,7 +20,8 @@ FROM Filterwithcodesetaliastable
     Output(rid="ri.vector.main.execute.850d6c9e-d8b0-4dd1-bad4-2b41be2a49d5"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
 )
-SELECT count(1), Alias
+SELECT count(1) as num_obs, Alias
 FROM Filterwithcodesetaliastable
 group by Alias
+order by num_obs
 
