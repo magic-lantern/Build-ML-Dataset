@@ -24,7 +24,8 @@ on l.visit_occurrence_id = v.visit_occurrence_id
 )
 SELECT *
 FROM labs_from_inpatient_visits
-where year(measurement_datetime) = 1900
+WHERE year(measurement_datetime) = 1900
+    OR measurement_datetime IS NULL
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.bdcd1f3c-5c7e-4297-a45d-1ed1011fb591"),
