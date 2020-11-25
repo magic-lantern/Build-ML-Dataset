@@ -61,4 +61,5 @@ WHERE visit_start_datetime IS NOT NULL
 )
 SELECT *
 FROM Filterwithcodesetaliastable
+WHERE visit_occurrence_id = 1182809160182337912
 
