@@ -1,6 +1,14 @@
 
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
+    bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
+)
+SELECT *
+FROM bestVisitPossible
+where visit_concept_name = 'Inpatient'
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.58eea22d-1433-4072-952a-5ac6d69234dd"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
 )
@@ -44,11 +52,4 @@ FROM Filterwithcodesetaliastable
 UNION ALL
 SELECT count(distinct Alias) AS result, 'count_labs' as stat
 FROM Filterwithcodesetaliastable
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.f4ab9454-9c16-4ebf-b5d3-0fdef81cd9f4"),
-    bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
-)
-SELECT *
-FROM bestVisitPossible
 
