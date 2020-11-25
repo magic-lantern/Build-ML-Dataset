@@ -58,11 +58,12 @@ LEFT JOIN inpatients_w_score v
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
-    Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127"),
+    Ptwithscores_drop_before_table_1=Input(rid="ri.foundry.main.dataset.d345497b-ebed-4055-90aa-48b38b346396"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
 )
 SELECT *
-FROM Pt_table_w_derived_scores
+--FROM Pt_table_w_derived_scores
+FROM Ptwithscores_drop_before_table_1
 WHERE 1 = 1
 AND visit_concept_name LIKE 'Inpatient%'
 AND visit_occurrence_id NOT IN (
