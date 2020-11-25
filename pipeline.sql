@@ -9,7 +9,8 @@ select * from
     select mt, count(1) as count_recs
     from (
         SELECT SUBSTRING(measurement_time, 0, 5) as mt
-        FROM labs_from_inpatient_visits )
+        FROM labs_from_inpatient_visits 
+        WHERE measurement_time IS NOT NULL)
     group by mt
 )
 order by count_recs desc
