@@ -19,6 +19,14 @@ LEFT JOIN inpatient_bestVisitPossible v
 on l.visit_occurrence_id = v.visit_occurrence_id
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.c596f8f0-252d-4b78-8482-594d8f0b8981"),
+    labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+)
+SELECT *
+FROM labs_from_inpatient_visits
+where year(measurement_datetime) = 1900
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.bdcd1f3c-5c7e-4297-a45d-1ed1011fb591"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
 )
@@ -64,12 +72,4 @@ where measurement_datetime = '1900-01-01T00:00:00.000Z'
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.8961db1e-eaa7-4af5-8b9b-ba1c72944043"),
-    labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
-)
-SELECT *
-FROM labs_from_inpatient_visits
-where year(measurement_datetime) = 1900
 
