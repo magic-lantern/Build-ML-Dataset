@@ -19,7 +19,7 @@ select * from
     Output(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
-select visit_type_concept_name, count(1) as vt_count
+select visit_concept_name, count(1) as vt_count
 from bestVisitPossible
 group by visit_concept_name
 
