@@ -21,13 +21,13 @@ select * from
 )
 select visit_type_concept_name, count(1) as vt_count
 from bestVisitPossible
-group by visit_type_concept_name
+group by visit_concept_name
 
 /*
 SELECT *
 FROM bestVisitPossible
 WHERE 1 = 1
-AND visit_type_concept_name LIKE 'Inpatient%'
+AND visit_concept_name LIKE 'Inpatient%'
 AND visit_start_date <= visit_end_date
 */
 
