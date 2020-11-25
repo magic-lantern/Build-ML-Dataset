@@ -122,5 +122,5 @@ where visit_start_date > visit_end_date
 SELECT *
 FROM inpatient_bestVisitPossible
 WHERE 1 = 1
-AND visit_start_date <= visit_end_date
+AND NOT (visit_start_date <= visit_end_date)
 
