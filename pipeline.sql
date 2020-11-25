@@ -67,7 +67,8 @@ WHERE -- year(measurement_datetime) = 1900
     Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
-SELECT *
+SELECT DISTINCT
+    v.visit_occurrence_id
 FROM bestVisitPossible v
 INNER JOIN Pt_table_w_derived_scores s
 ON v.visit_occurrence_id = s.visit_occurrence_id
