@@ -10,11 +10,13 @@ where visit_concept_name like 'Inpatient%'
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
-    Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
+    Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8"),
+    inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc")
 )
-SELECT *
-FROM Filterwithcodesetaliastable
-WHERE visit_occurrence_id = 1182809160182337912
+SELECT l.*
+FROM Filterwithcodesetaliastable l
+LEFT JOIN inpatient_bestVisitPossible v
+on l.visit_occurrence_id = v.visit_occurrence_id
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.bdcd1f3c-5c7e-4297-a45d-1ed1011fb591"),
