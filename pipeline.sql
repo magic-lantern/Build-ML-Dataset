@@ -1,6 +1,14 @@
 
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.c1c686ec-6a67-4278-8695-3dc25b69821e"),
+    bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
+)
+select visit_concept_name, count(1) as vt_count
+from bestVisitPossible
+group by visit_concept_name
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.c47f0ebb-dcb0-472a-ab69-6dfcf40faeb1"),
     labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
@@ -99,13 +107,6 @@ where measurement_datetime = '1900-01-01T00:00:00.000Z'
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.4d706d7d-1664-483b-9433-7a9a418a34ea"),
-    bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
-)
-SELECT *
-FROM bestVisitPossible
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
