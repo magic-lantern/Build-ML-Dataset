@@ -10,7 +10,7 @@ group by visit_concept_name
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.c47f0ebb-dcb0-472a-ab69-6dfcf40faeb1"),
-    labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
 select * from 
 (
@@ -37,12 +37,24 @@ AND (visit_start_date <= visit_end_date
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.1da536da-5594-4df1-98cf-d364d2773b3e"),
     Pivot_on_charlson=Input(rid="ri.foundry.main.dataset.4a9afe05-3616-49ca-a9c3-73d462467053"),
-    inpatients_w_score=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
+    inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
 SELECT c.*
 FROM Pivot_on_charlson c
 LEFT JOIN inpatients_w_score v
     ON c.person_id = v.person_id
+
+@transform_pandas(
+    Output(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
+    Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8"),
+    inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
+    inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
+)
+SELECT l.*
+FROM Filterwithcodesetaliastable l
+-- LEFT JOIN inpatient_bestVisitPossible v
+LEFT JOIN inpatients_w_score v
+    ON l.visit_occurrence_id = v.visit_occurrence_id
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
@@ -60,27 +72,15 @@ AND visit_occurrence_id NOT IN (
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
-    labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
 SELECT *
 FROM labs_from_inpatient_visits
 where visit_occurrence_id = 1182809160182337912
 
 @transform_pandas(
-    Output(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
-    Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8"),
-    inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
-    inpatients_w_score=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
-)
-SELECT l.*
-FROM Filterwithcodesetaliastable l
--- LEFT JOIN inpatient_bestVisitPossible v
-LEFT JOIN inpatients_w_score v
-    ON l.visit_occurrence_id = v.visit_occurrence_id
-
-@transform_pandas(
     Output(rid="ri.foundry.main.dataset.c596f8f0-252d-4b78-8482-594d8f0b8981"),
-    labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
 SELECT *
 FROM labs_from_inpatient_visits
