@@ -4,9 +4,11 @@
     Output(rid="ri.foundry.main.dataset.c47f0ebb-dcb0-472a-ab69-6dfcf40faeb1"),
     labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
-SELECT measurement_time, count(1) as count_recs
-FROM labs_from_inpatient_visits
-group by measurement_time
+select mt, count(1) as count_recs
+from (
+SELECT SUBSTRING(measurement_time, 0, 5) as mt
+FROM labs_from_inpatient_visits )
+group by mt
 order by count_recs desc
 
 @transform_pandas(
