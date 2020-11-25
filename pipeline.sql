@@ -100,9 +100,10 @@ FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.f9e55b38-d64f-4a86-93fd-2f40fdd4e6b2"),
+    Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
 SELECT *
 FROM bestVisitPossible
+where visit_start_date > visit_end_date
 
