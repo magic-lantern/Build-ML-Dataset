@@ -8,4 +8,5 @@ def datetime_histogram(labs_from_inpatient_visits):
     tempdf = labs_from_inpatient_visits.filter(labs_from_inpatient_visits.measurement_datetime.isNotNull()).limit(1000)
     df = tempdf.toPandas()
     sns.histplot(df.measurement_datetime)
+    return None
 
