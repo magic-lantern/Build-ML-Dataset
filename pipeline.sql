@@ -38,7 +38,7 @@ on o.alias = mv.alias
 ORDER BY o.alias
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.e971485e-0f1e-446b-99ad-68b2f21a8048"),
+    Output(rid="ri.foundry.main.dataset.c0c1354d-ab97-4c7c-af46-0c6912ea81ce"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
 )
 SELECT count(distinct person_id) AS result, 'count_pers' as stat
@@ -52,4 +52,12 @@ FROM Filterwithcodesetaliastable
 UNION ALL
 SELECT count(distinct Alias) AS result, 'count_labs' as stat
 FROM Filterwithcodesetaliastable
+UNION ALL
+SELECT count(1) as result, 'num_null_datetime' as stat
+FROM Filterwithcodesetaliastable
+where measurement_datetime is NULL
+UNION ALL
+SELECT count(1) as result, 'num_1900_datetime' as stat
+FROM Filterwithcodesetaliastable
+where measurement_datetime = '1900-01-01T00:00:00.000Z'
 
