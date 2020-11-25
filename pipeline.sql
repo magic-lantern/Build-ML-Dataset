@@ -69,7 +69,7 @@ WHERE -- year(measurement_datetime) = 1900
 )
 SELECT DISTINCT
     v.visit_occurrence_id,
-    s.severity_type
+    s.Severity_Type
 FROM visit_problems v
 INNER JOIN Pt_table_w_derived_scores s
 ON v.visit_occurrence_id = s.visit_occurrence_id
