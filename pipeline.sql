@@ -13,6 +13,7 @@ LEFT JOIN (
     FROM Filterwithcodesetaliastable
     group by Alias) mv
 on o.alias = mv.alias
+ORDER BY o.alias
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.e971485e-0f1e-446b-99ad-68b2f21a8048"),
