@@ -7,7 +7,7 @@
 SELECT measurement_time, count(1) as count_recs
 FROM labs_from_inpatient_visits
 group by measurement_time
-order by count_recs
+order by count_recs desc
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
