@@ -35,6 +35,15 @@ AND (visit_start_date <= visit_end_date
     OR visit_end_date IS NULL)
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.1da536da-5594-4df1-98cf-d364d2773b3e"),
+    Pivot_on_charlson=Input(rid="ri.foundry.main.dataset.4a9afe05-3616-49ca-a9c3-73d462467053")
+)
+SELECT c.*
+FROM Pivot_on_charlson c
+LEFT JOIN inpatients_w_score v
+    ON c.person_id = v.person_id
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
     Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
@@ -140,13 +149,6 @@ where measurement_datetime = '1900-01-01T00:00:00.000Z'
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.e5f10cc7-9be6-4024-9867-25ced1348de3"),
-    Pivot_on_charlson=Input(rid="ri.foundry.main.dataset.4a9afe05-3616-49ca-a9c3-73d462467053")
-)
-SELECT *
-FROM Pivot_on_charlson
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
