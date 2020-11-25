@@ -5,7 +5,7 @@ import seaborn as sns
     labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
 def datetime_histogram(labs_from_inpatient_visits):
-    tempdf = labs_from_inpatient_visits.filter(labs_from_inpatient_visits.measurement_datetime.isNotNull())
+    tempdf = labs_from_inpatient_visits.filter(labs_from_inpatient_visits.measurement_datetime.isNotNull()).limit(1000)
     df = tempdf.toPandas()
     sns.histplot(df.measurement_datetime)
 
