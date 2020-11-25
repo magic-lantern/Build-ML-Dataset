@@ -21,8 +21,9 @@ select * from
 )
 SELECT *
 FROM bestVisitPossible
-where visit_concept_name like 'Inpatient%'
-AND visit_start_date >= visit_end_date
+WHERE 1 = 1
+AND visit_concept_name like 'Inpatient%'
+-- AND visit_start_date >= visit_end_date
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
