@@ -35,8 +35,13 @@ FROM Filterwithcodesetaliastable
     Output(rid="ri.vector.main.execute.cbb1cc45-8783-46a8-9a45-0ac7dd58cb5f"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
 )
-SELECT *
+SELECT count(1), 'num_null' as stat_col
+FROM Filterwithcodesetaliastable
+where measurement_datetime is NULL
+
+UNION
+
+SELECT count(1), 'num_1900' as stat_col
 FROM Filterwithcodesetaliastable
 where measurement_datetime = '1900-01-01T00:00:00.000Z'
-or measurement_datetime is NULL
 
