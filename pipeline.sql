@@ -47,3 +47,10 @@ SELECT count(1) as result, 'num_1900_datetime' as stat
 FROM Filterwithcodesetaliastable
 where measurement_datetime = '1900-01-01T00:00:00.000Z'
 
+@transform_pandas(
+    Output(rid="ri.vector.main.execute.cc4066b9-d5c1-4cd5-af67-8b9f25e96d65"),
+    inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc")
+)
+SELECT *
+FROM inpatient_bestVisitPossible
+
