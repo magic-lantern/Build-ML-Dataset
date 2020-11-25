@@ -36,7 +36,8 @@ AND (visit_start_date <= visit_end_date
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.1da536da-5594-4df1-98cf-d364d2773b3e"),
-    Pivot_on_charlson=Input(rid="ri.foundry.main.dataset.4a9afe05-3616-49ca-a9c3-73d462467053")
+    Pivot_on_charlson=Input(rid="ri.foundry.main.dataset.4a9afe05-3616-49ca-a9c3-73d462467053"),
+    inpatients_w_score=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
 SELECT c.*
 FROM Pivot_on_charlson c
