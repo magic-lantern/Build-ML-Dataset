@@ -19,17 +19,11 @@ select * from
     Output(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
-select visit_concept_name, count(1) as vt_count
-from bestVisitPossible
-group by visit_concept_name
-
-/*
 SELECT *
 FROM bestVisitPossible
 WHERE 1 = 1
 AND visit_concept_name LIKE 'Inpatient%'
 AND visit_start_date <= visit_end_date
-*/
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
