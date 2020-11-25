@@ -10,10 +10,10 @@ select * from
     from (
         SELECT SUBSTRING(measurement_time, 0, 5) as mt
         FROM labs_from_inpatient_visits 
-        WHERE measurement_time IS NOT NULL)
+        --WHERE measurement_time IS NOT NULL
+    )
     group by mt
 )
-order by count_recs desc
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
