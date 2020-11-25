@@ -65,11 +65,12 @@ WHERE -- year(measurement_datetime) = 1900
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.fa76c1c4-f05e-4583-a854-95617b81fd44"),
     Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127"),
-    bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
+    visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
 )
 SELECT DISTINCT
-    v.visit_occurrence_id
-FROM bestVisitPossible v
+    v.visit_occurrence_id,
+    s.severity_type
+FROM visit_problems v
 INNER JOIN Pt_table_w_derived_scores s
 ON v.visit_occurrence_id = s.visit_occurrence_id
 
