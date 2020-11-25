@@ -65,3 +65,10 @@ SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
+@transform_pandas(
+    Output(rid="ri.vector.main.execute.8961db1e-eaa7-4af5-8b9b-ba1c72944043"),
+    labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+)
+SELECT *
+FROM labs_from_inpatient_visits
+
