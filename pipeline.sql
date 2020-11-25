@@ -117,17 +117,3 @@ SELECT *
 FROM bestVisitPossible
 where visit_start_date > visit_end_date
 
-@transform_pandas(
-    Output(rid="ri.foundry.main.dataset.66b5d9c3-949c-46a9-8f34-d3ea1145abc8"),
-    inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc")
-)
-SELECT *
-FROM inpatient_bestVisitPossible
-WHERE 1 = 1
-/*
-AND (visit_start_date < visit_end_date 
-    OR visit_start_date = visit_end_date)
-*/
-AND (visit_start_date IS NULL
-OR visit_end_date IS NULL)
-
