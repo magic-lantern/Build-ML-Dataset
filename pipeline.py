@@ -1,4 +1,5 @@
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.96a61276-4442-4694-a0fd-7e5709c73dc9"),
@@ -7,8 +8,9 @@ import seaborn as sns
 def datetime_histogram(labs_from_inpatient_visits):
     tempdf = labs_from_inpatient_visits.filter(labs_from_inpatient_visits.measurement_datetime.isNotNull()).limit(1000)
     df = tempdf.toPandas()
-    pout = sns.histplot(df.measurement_datetime)
-    pout.show()
+    sns.histplot(df.measurement_datetime)
+    plt.show()
+    #pout.show()
     #return None
     #return labs_from_inpatient_visits.filter(labs_from_inpatient_visits.measurement_datetime.isNotNull()).limit(1000)
 
