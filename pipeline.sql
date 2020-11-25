@@ -45,3 +45,10 @@ UNION ALL
 SELECT count(distinct Alias) AS result, 'count_labs' as stat
 FROM Filterwithcodesetaliastable
 
+@transform_pandas(
+    Output(rid="ri.vector.main.execute.f4ab9454-9c16-4ebf-b5d3-0fdef81cd9f4"),
+    bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
+)
+SELECT *
+FROM bestVisitPossible
+
