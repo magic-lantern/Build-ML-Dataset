@@ -71,4 +71,5 @@ WHERE visit_start_datetime IS NOT NULL
 )
 SELECT *
 FROM labs_from_inpatient_visits
+where year(measurement_datetime) = 1900
 
