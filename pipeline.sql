@@ -22,6 +22,7 @@ select * from
 SELECT *
 FROM bestVisitPossible
 where visit_concept_name like 'Inpatient%'
+AND visit_source_value != 'macrovisit'
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
