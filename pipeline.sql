@@ -35,6 +35,15 @@ AND (visit_start_date <= visit_end_date
     OR visit_end_date IS NULL)
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
+    Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127")
+)
+SELECT *
+FROM Pt_table_w_derived_scores
+WHERE 1 = 1
+AND visit_concept_name LIKE 'Inpatient%'
+
+@transform_pandas(
     Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
     labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
@@ -124,13 +133,6 @@ where measurement_datetime = '1900-01-01T00:00:00.000Z'
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.fb23ea0f-33d7-47ad-93f3-603dd1f8d190"),
-    Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127")
-)
-SELECT *
-FROM Pt_table_w_derived_scores
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
