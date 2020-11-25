@@ -67,12 +67,16 @@ WHERE -- year(measurement_datetime) = 1900
     Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
 )
-SELECT DISTINCT
-    v.visit_occurrence_id,
-    s.Severity_Type
-FROM visit_problems v
-INNER JOIN Pt_table_w_derived_scores s
-ON v.visit_occurrence_id = s.visit_occurrence_id
+SELECT severity_type, count(1) as cnt_sev
+FROM (
+    SELECT DISTINCT
+        v.visit_occurrence_id,
+        s.Severity_Type as severity_type
+    FROM visit_problems v
+    INNER JOIN Pt_table_w_derived_scores s
+    ON v.visit_occurrence_id = s.visit_occurrence_id
+)
+GROUP BY severity_type
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.bdcd1f3c-5c7e-4297-a45d-1ed1011fb591"),
