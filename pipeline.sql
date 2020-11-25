@@ -37,4 +37,6 @@ FROM Filterwithcodesetaliastable
 )
 SELECT *
 FROM Filterwithcodesetaliastable
+where measurement_datetime = '1900-01-01T00:00:00.000Z'
+or measurement_datetime is NULL
 
