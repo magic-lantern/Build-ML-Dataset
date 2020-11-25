@@ -6,7 +6,7 @@
 )
 SELECT *
 FROM bestVisitPossible
-where visit_concept_name = 'Inpatient'
+where visit_concept_name like 'Inpatient%'
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.58eea22d-1433-4072-952a-5ac6d69234dd"),
