@@ -24,6 +24,14 @@ FROM bestVisitPossible
 where visit_concept_name like 'Inpatient%'
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
+    labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+)
+SELECT *
+FROM labs_from_inpatient_visits
+where visit_occurrence_id = 1182809160182337912
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8"),
     inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc")
@@ -89,11 +97,4 @@ where measurement_datetime = '1900-01-01T00:00:00.000Z'
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
-    labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
-)
-SELECT *
-FROM labs_from_inpatient_visits
 
