@@ -1,7 +1,7 @@
 import seaborn as sns
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.c50c04da-8d5e-42bb-8990-6b0752ff4ca6"),
+    Output(rid="ri.foundry.main.dataset.96a61276-4442-4694-a0fd-7e5709c73dc9"),
     labs_from_inpatient_visits=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
 def datetime_histogram(labs_from_inpatient_visits):
