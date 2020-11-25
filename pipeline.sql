@@ -64,7 +64,7 @@ where visit_occurrence_id = 1182809160182337912
 SELECT l.*
 FROM Filterwithcodesetaliastable l
 -- LEFT JOIN inpatient_bestVisitPossible v
-LEFT JOIN inpatient_w_score v
+LEFT JOIN inpatients_w_score v
     ON l.visit_occurrence_id = v.visit_occurrence_id
 
 @transform_pandas(
