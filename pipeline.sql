@@ -45,14 +45,14 @@ LEFT JOIN inpatients v
     ON c.person_id = v.person_id
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.72188e89-ada9-4e7a-8c8d-a331fe3cef31"),
+    Output(rid="ri.foundry.main.dataset.73d1fd87-b64c-4b43-999c-a45101a0f2e9"),
     IMV_ECMO_unique_visits=Input(rid="ri.foundry.main.dataset.b2d028ae-aeb5-446f-b226-8980c448db31"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
 SELECT DISTINCT
     e.*
 FROM IMV_ECMO_unique_visits e
-RIGHT JOIN inpatients i
+INNER JOIN inpatients i
 ON i.visit_occurrence_id = e.visit_occurrence_id
 ORDER BY visit_occurrence_id
 
