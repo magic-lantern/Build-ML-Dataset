@@ -15,7 +15,13 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     idf = idf.withColumnRenamed("visit_occurrence_id", "v_id")
 
     df = pdf.join(idf, idf["v_id"] == pdf["visit_occurrence_id"], "inner")
-    df = df.groupby("visit_occurrence_id").pivot("payer_concept_name")
+    df = df.drop("v_id")
+    df = df.groupby("visit_occurrence_id").pivot("payer_concept_name").count()
+
+    #Cast each column to a boolean
+    #df = df.select(*[F.col(c) if c == 'visit_occurrence_id' else F.col(c).cast('boolean') for c in df.columns])
+    #df = df.drop("null")
+
     # do we need to do this?
     #dfTemp = joinSeverity.withColumn("payer_concept_name", regexp_replace("payer_concept_name", "/", "_"))
     #dfTemp = joinSeverity.withColumn("payer_concept_name", regexp_replace("payer_concept_name", " ", "_"))
