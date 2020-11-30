@@ -172,6 +172,13 @@ FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.72188e89-ada9-4e7a-8c8d-a331fe3cef31"),
+    IMV_ECMO_unique_visits=Input(rid="ri.foundry.main.dataset.b2d028ae-aeb5-446f-b226-8980c448db31")
+)
+SELECT *
+FROM IMV_ECMO_unique_visits
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
