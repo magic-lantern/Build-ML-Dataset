@@ -45,6 +45,18 @@ LEFT JOIN inpatients v
     ON c.person_id = v.person_id
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.72188e89-ada9-4e7a-8c8d-a331fe3cef31"),
+    IMV_ECMO_unique_visits=Input(rid="ri.foundry.main.dataset.b2d028ae-aeb5-446f-b226-8980c448db31"),
+    inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
+)
+SELECT DISTINCT
+    e.*
+FROM IMV_ECMO_unique_visits e
+RIGHT JOIN inpatients i
+ON i.visit_occurrence_id = p.visit_occurrence_id
+ORDER BY visit_occurrence_id
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8"),
     inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
@@ -170,13 +182,6 @@ where measurement_datetime = '1900-01-01T00:00:00.000Z'
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.72188e89-ada9-4e7a-8c8d-a331fe3cef31"),
-    IMV_ECMO_unique_visits=Input(rid="ri.foundry.main.dataset.b2d028ae-aeb5-446f-b226-8980c448db31")
-)
-SELECT *
-FROM IMV_ECMO_unique_visits
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
