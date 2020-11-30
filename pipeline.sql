@@ -50,7 +50,8 @@ LEFT JOIN inpatients v
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
 SELECT DISTINCT
-    e.*
+    e.visit_occurrence_id,
+    true AS ecmo_or_vent
 FROM IMV_ECMO_unique_visits e
 INNER JOIN inpatients i
 ON i.visit_occurrence_id = e.visit_occurrence_id
