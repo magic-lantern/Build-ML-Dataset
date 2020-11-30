@@ -32,8 +32,9 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.55b674c2-5d21-455a-b0bf-892e2d20db5a"),
-    lab_filter=Input(rid="ri.vector.main.execute.9c392f6c-a758-4ccb-968b-59b9ed94fe1e")
+    test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
-def unnamed_1(lab_filter):
+def worst_lab(test_lab_filter):
+    df = test_lab_filter
     
 
