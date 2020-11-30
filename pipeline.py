@@ -1,7 +1,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 from pyspark.sql import functions as F
-from pyspark.sql.functions import max, mean, min, stddev, lit, regexp_replace
+from pyspark.sql.functions import max, mean, min, stddev, lit, regexp_replace, col
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
@@ -21,13 +21,16 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     df = df.withColumn("payer_concept_name", regexp_replace("payer_concept_name", "/", "_"))
     df = df.withColumn("payer_concept_name", regexp_replace("payer_concept_name", " ", "_"))
     df = df.withColumn("payer_concept_name", regexp_replace("payer_concept_name", ",", ""))
+    df = df.withColumn("payer_concept_name", F.lower(col("payer_concept_name")))
 
     df = df.groupby("visit_occurrence_id").pivot("payer_concept_name").count()
 
-    #Cast each column to a boolean
-    #df = df.select(*[F.col(c) if c == 'visit_occurrence_id' else F.col(c).cast('boolean') for c in df.columns])
-    #df = df.drop("null")
-
-    #Pivot by payer plan name
+    #Cast each new column to a boolean
+    keep_col = ['visit_occurrence_id', 'person_id', 'payer_plan_period_start_date', 'payer_plan_period_end_date', 'data_partner_id', 'visit_start_date', 'visit_end_date']
+    bool_col = [c for c in df.columns if c not in keep_col]
+    for c in bool_col:
+        df = df.withColumn(c, F.col(c).cast('boolean'))
+    df = df.drop("null")
+    
     return df
 
