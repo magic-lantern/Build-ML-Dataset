@@ -30,12 +30,3 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     
     return pivot_df
 
-@transform_pandas(
-    Output(rid="ri.foundry.main.dataset.587205ec-c7b7-40a7-a105-ef8caf1387ef"),
-    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
-)
-def worst_lab(inpatient_labs):
-    df = inpatient_labs
-    df.where(visit_occurrence_id == 2089553554350138032)
-    
-

@@ -109,6 +109,14 @@ AND data_partner_id != 787
 -- perhaps should just switch to Ptwithscores_drop_before_table_2
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.9c392f6c-a758-4ccb-968b-59b9ed94fe1e"),
+    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+)
+SELECT *
+FROM inpatient_labs
+WHERE visit_occurrence_id = 2089553554350138032
+
+@transform_pandas(
     Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
     inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
@@ -188,14 +196,6 @@ where measurement_datetime = '1900-01-01T00:00:00.000Z'
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.9c392f6c-a758-4ccb-968b-59b9ed94fe1e"),
-    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
-)
-SELECT *
-FROM inpatient_labs
-WHERE visit_occurrence_id = 2089553554350138032
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
