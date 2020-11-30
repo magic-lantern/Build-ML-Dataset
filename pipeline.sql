@@ -57,14 +57,15 @@ LEFT JOIN inpatients_w_score v
     ON l.visit_occurrence_id = v.visit_occurrence_id
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.a2eb8687-89a7-46b4-8a0e-b3e1da58b697"),
+    Output(rid="ri.foundry.main.dataset.ea22427f-b454-417f-a608-9ced2a96bf77"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
     map2_visit_occurrence_payer_plan=Input(rid="ri.foundry.main.dataset.bc1ee09f-face-40da-8840-fa27e1b2e263")
 )
-SELECT *
+SELECT p.*
 FROM map2_visit_occurrence_payer_plan p
 INNER JOIN inpatients i
 ON i.visit_occurrence_id = p.visit_occurrence_id
+ORDER BY p.visit_occurence_id
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
