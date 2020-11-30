@@ -57,6 +57,16 @@ LEFT JOIN inpatients_w_score v
     ON l.visit_occurrence_id = v.visit_occurrence_id
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.a2eb8687-89a7-46b4-8a0e-b3e1da58b697"),
+    inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
+    map2_visit_occurrence_payer_plan=Input(rid="ri.foundry.main.dataset.bc1ee09f-face-40da-8840-fa27e1b2e263")
+)
+SELECT *
+FROM map2_visit_occurrence_payer_plan p
+INNER JOIN inpatients i
+ON i.visit_occurrence_id = p.visit_occurrence_id
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
     Ptwithscores_drop_before_table_1=Input(rid="ri.foundry.main.dataset.d345497b-ebed-4055-90aa-48b38b346396"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
@@ -151,13 +161,6 @@ where measurement_datetime = '1900-01-01T00:00:00.000Z'
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.a2eb8687-89a7-46b4-8a0e-b3e1da58b697"),
-    map2_visit_occurrence_payer_plan=Input(rid="ri.foundry.main.dataset.bc1ee09f-face-40da-8840-fa27e1b2e263")
-)
-SELECT *
-FROM map2_visit_occurrence_payer_plan
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
