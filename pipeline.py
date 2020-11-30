@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 )
 def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     pdf = map2_visit_occurrence_payer_plan
-    pdf = pdf.select("visit_occurrence_id", "person_id", "payer_plan_period_start_date", "payer_plan_period_end_date", "data_partner_id" "payer_concept_name")
+    pdf = pdf.select("visit_occurrence_id", "person_id", "payer_plan_period_start_date", "payer_plan_period_end_date", "data_partner_id", "payer_concept_name")
 
     idf = inpatients
     idf = idf.select("visit_occurrence_id", "visit_start_date", "visit_end_date")
