@@ -53,7 +53,7 @@ LEFT JOIN inpatients_w_score v
 SELECT l.*
 FROM Filterwithcodesetaliastable l
 -- LEFT JOIN inpatient_bestVisitPossible v
-LEFT JOIN inpatients_w_score v
+LEFT JOIN inpatients v
     ON l.visit_occurrence_id = v.visit_occurrence_id
 
 @transform_pandas(
