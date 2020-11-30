@@ -195,6 +195,7 @@ WHERE visit_start_datetime IS NOT NULL
 )
 SELECT *
 FROM inpatient_labs
+WHERE visit_occurrence_id = 2089553554350138032
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
