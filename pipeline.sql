@@ -65,7 +65,7 @@ SELECT p.*
 FROM map2_visit_occurrence_payer_plan p
 INNER JOIN inpatients i
 ON i.visit_occurrence_id = p.visit_occurrence_id
-ORDER BY visit_occurence_id
+ORDER BY p.visit_occurrence_id
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
