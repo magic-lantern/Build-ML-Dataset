@@ -53,7 +53,7 @@ SELECT DISTINCT
     e.*
 FROM IMV_ECMO_unique_visits e
 RIGHT JOIN inpatients i
-ON i.visit_occurrence_id = p.visit_occurrence_id
+ON i.visit_occurrence_id = e.visit_occurrence_id
 ORDER BY visit_occurrence_id
 
 @transform_pandas(
