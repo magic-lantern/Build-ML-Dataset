@@ -25,7 +25,7 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
 
     #Pivot by payer_concept_name and cast each new column to a boolean
     pivot_df = df.groupby('visit_occurrence_id').pivot("payer_concept_name").count()
-    pivot_df.select(*[col(c) if c == 'visit_occurrence_id' else col(c).cast('boolean') for c in pivot_df.columns])
+    pivot_df = pivot_df.select(*[col(c) if c == 'visit_occurrence_id' else col(c).cast('boolean') for c in pivot_df.columns])
     pivot_df = pivot_df.drop("null")
     
     return pivot_df
