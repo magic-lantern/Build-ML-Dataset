@@ -69,15 +69,11 @@ SELECT DISTINCT
     l.data_partner_id,
     v.visit_start_date,
     v.visit_end_date,
-    measurement_concept_id,
     measurement_date,
     measurement_datetime,
-    measurement_type_concept_id,
     value_as_number,
     value_as_concept_id,
-    unit_concept_id,
     measurement_source_value,
-    measurement_source_concept_id,
     unit_source_value,
     measurement_source_concept_name,
     harmonized_value_as_number,
@@ -89,8 +85,6 @@ SELECT DISTINCT
     measurement_age_in_years_fraction,
     measurement_age_in_days,
     measurement_day_of_visit,
-    visit_occurrence_measurement_rank,
-    last_visit_occurrence_measurement_rank,
     Alias as alias
 FROM Filterwithcodesetaliastable l
 -- LEFT JOIN inpatient_bestVisitPossible v
