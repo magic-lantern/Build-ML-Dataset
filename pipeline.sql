@@ -66,7 +66,7 @@ ORDER BY visit_occurrence_id
 SELECT DISTINCT
     l.visit_occurrence_id,
     l.person_id,
-    l.data_partner_id
+    l.data_partner_id,
     v.visit_start_date,
     v.visit_end_date,
     measurement_concept_id,
