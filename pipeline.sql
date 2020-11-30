@@ -63,7 +63,35 @@ ORDER BY visit_occurrence_id
     inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
-SELECT l.*
+SELECT DISTINCT
+    l.visit_occurrence_id,
+    l.person_id,
+    l.data_partner_id
+    v.visit_start_date,
+    v.visit_end_date,
+    measurement_concept_id,
+    measurement_date,
+    measurement_datetime,
+    measurement_type_concept_id,
+    value_as_number,
+    value_as_concept_id,
+    unit_concept_id,
+    measurement_source_value,
+    measurement_source_concept_id,
+    unit_source_value,
+    measurement_source_concept_name,
+    harmonized_value_as_number,
+    measurement_julian_day,
+    has_quantitative_scale,
+    has_value_as_number,
+    has_value_as_concept,
+    has_value_as_concept_only,
+    measurement_age_in_years_fraction,
+    measurement_age_in_days,
+    measurement_day_of_visit,
+    visit_occurrence_measurement_rank,
+    last_visit_occurrence_measurement_rank,
+    Alias as alias
 FROM Filterwithcodesetaliastable l
 -- LEFT JOIN inpatient_bestVisitPossible v
 LEFT JOIN inpatients v
