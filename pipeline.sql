@@ -41,7 +41,7 @@ AND (visit_start_date <= visit_end_date
 )
 SELECT c.*
 FROM Pivot_on_charlson c
-LEFT JOIN inpatients_w_score v
+LEFT JOIN inpatients v
     ON c.person_id = v.person_id
 
 @transform_pandas(
