@@ -102,6 +102,11 @@ AND visit_occurrence_id NOT IN (
     SELECT DISTINCT visit_occurrence_id
     FROM visit_problems
 )
+AND data_partner_id != 411
+AND data_partner_id != 224
+AND data_partner_id != 787
+-- what about under 18?
+-- perhaps should just switch to Ptwithscores_drop_before_table_2
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
