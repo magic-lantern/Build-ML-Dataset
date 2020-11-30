@@ -61,7 +61,7 @@ LEFT JOIN inpatients_w_score v
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
     map2_visit_occurrence_payer_plan=Input(rid="ri.foundry.main.dataset.bc1ee09f-face-40da-8840-fa27e1b2e263")
 )
-SELECT p.*, i.visit_start_date, i.length_of_stay
+SELECT p.*, i.visit_start_date, i.visit_end_date
 FROM map2_visit_occurrence_payer_plan p
 INNER JOIN inpatients i
 ON i.visit_occurrence_id = p.visit_occurrence_id
