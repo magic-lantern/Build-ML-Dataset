@@ -121,7 +121,7 @@ where visit_occurrence_id = 1182809160182337912
     inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
 SELECT *
-FROM labs_from_inpatient_visits
+FROM inpatient_labs
 WHERE -- year(measurement_datetime) = 1900
     --OR
      measurement_datetime IS NULL
