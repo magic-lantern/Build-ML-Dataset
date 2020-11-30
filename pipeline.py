@@ -1,5 +1,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+from pyspark.sql import functions as F
+from pyspark.sql.functions import max, mean, min, stddev, lit, regexp_replace
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
