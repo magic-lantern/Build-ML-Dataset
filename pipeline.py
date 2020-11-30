@@ -15,12 +15,12 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     idf = idf.withColumnRenamed("visit_occurrence_id", "v_id")
 
     df = pdf.join(idf, idf["v_id"] == pdf["visit_occurrence_id"], "inner")
-    
+    df = df.groupby("visit_occurrence_id").pivot("payer_concept_name")
     # do we need to do this?
     #dfTemp = joinSeverity.withColumn("payer_concept_name", regexp_replace("payer_concept_name", "/", "_"))
     #dfTemp = joinSeverity.withColumn("payer_concept_name", regexp_replace("payer_concept_name", " ", "_"))
     #dfTemp = joinSeverity.withColumn("payer_concept_name", regexp_replace("payer_concept_name", ",", ""))
 
     #Pivot by payer plan name
-    return df.groupby("visit_occurrence_id").pivot("payer_concept_name")
+    return df
 
