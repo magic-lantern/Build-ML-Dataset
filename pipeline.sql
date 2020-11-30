@@ -61,7 +61,7 @@ LEFT JOIN inpatients_w_score v
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
     map2_visit_occurrence_payer_plan=Input(rid="ri.foundry.main.dataset.bc1ee09f-face-40da-8840-fa27e1b2e263")
 )
-SELECT p.*
+SELECT p.*, i.visit_start_date, i.length_of_stay
 FROM map2_visit_occurrence_payer_plan p
 INNER JOIN inpatients i
 ON i.visit_occurrence_id = p.visit_occurrence_id
@@ -72,7 +72,7 @@ ORDER BY p.visit_occurrence_id
     Ptwithscores_drop_before_table_1=Input(rid="ri.foundry.main.dataset.d345497b-ebed-4055-90aa-48b38b346396"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
 )
-SELECT *
+SELECT *, DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date
 --FROM Pt_table_w_derived_scores
 FROM Ptwithscores_drop_before_table_1
 WHERE 1 = 1
