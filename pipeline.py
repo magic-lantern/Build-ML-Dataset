@@ -33,27 +33,20 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     return pivot_df
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.8bd81999-be5f-4ac4-b3f6-57abd8dd610d"),
-    test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
-)
-def unnamed_1(test_lab_filter):
-    
-
-@transform_pandas(
     Output(rid="ri.foundry.main.dataset.853d50df-0c31-47d8-b208-f838f2363ff2"),
     inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
 def worst_lab(test_lab_filter, inpatient_labs):
-    # df = test_lab_filter
-    df = inpatient_labs
+    df = test_lab_filter
+    # df = inpatient_labs
 
     # likely will want to adjust this window
     df.filter(df.measurement_day_of_visit <= 1)
 
     labs = {'ALT (SGPT), IU/L': 'high',
         'AST (SGOT), IU/L': 'high',
-        'Blood type (ABO + Rh)': 'categorical',
+        'Blood type (ABO + Rh)': 'categorical', # this is a unique case will need to investigate how to handle
         'BMI': 'high',
         'BNP, pg/mL': 'high',
         'Body weight': 'high',
@@ -98,4 +91,62 @@ def worst_lab(test_lab_filter, inpatient_labs):
                 kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
 
     return pd.DataFrame(np.concatenate(kept_rows).flat)
+
+@transform_pandas(
+    Output(rid="ri.vector.main.execute.8bd81999-be5f-4ac4-b3f6-57abd8dd610d"),
+    test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
+)
+def worst_lab_v2(test_lab_filter):
+    df = test_lab_filter
+
+    # likely will want to adjust this window
+    df.filter(df.measurement_day_of_visit <= 1)
+
+    labs = {'ALT (SGPT), IU/L': 'high',
+        'AST (SGOT), IU/L': 'high',
+        'Blood type (ABO + Rh)': 'categorical', # this is a unique case will need to investigate how to handle
+        'BMI': 'high',
+        'BNP, pg/mL': 'high',
+        'Body weight': 'high',
+        'BUN, mg/dL  ': 'high',
+        'c-reactive protein CRP, mg/L': 'high',
+        'Chloride, mmol/L': 'high',
+        'Creatinine, mg/dL': 'high',
+        'D-Dimer, mg/L FEU': 'high',
+        'Diastolic blood pressure': 'low',
+        'Erythrocyte Sed. Rate, mm/hr': 'high',
+        'Ferritin, ng/mL': 'high',
+        'Glasgow coma scale (GCS) Total': 'low',
+        'Glucose, mg/dL': 'high',
+        'Heart rate': 'high',
+        'Hemoglobin A1c, %': 'high',
+        'Hemoglobin, g/dL': 'low',
+        'Lactate, mg/dL': 'high',
+        'Lymphocytes (absolute),  x10E3/uL': 'high',
+        'Neutrophils (absolute),  x10E3/uL': 'high',
+        'NT pro BNP, pg/mL': 'high',
+        'pH': 'low',
+        'Platelet count, x10E3/uL': 'low',
+        'Potassium, mmol/L': 'high',
+        'Procalcitonin, ng/mL': 'high',
+        'Respiratory rate': 'high',
+        'Sodium, mmol/L': 'high',
+        'SpO2': 'low',
+        'Systolic blood pressure': 'low',
+        'Temperature': 'high',
+        'Troponin all types, ng/mL': 'high',
+        'White blood cell count,  x10E3/uL': 'high'}
+
+    df.sort(['visit_occurrence_id', 'alias', 'harmonized_value_as_number'])
+
+    kept_rows = []
+    for l in labs:
+        tdf = df.filter(df['alias'] == l)
+        if (len(tdf) > 0):
+            if labs[l] == 'high':
+                kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).last().to_dict(orient="records"))
+            else:
+                kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
+
+    return
 
