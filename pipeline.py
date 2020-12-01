@@ -82,9 +82,9 @@ def worst_lab(test_lab_filter):
     for l in labs:
         tdf = df[df.alias == l]
         if labs[l] == 'high':
-            kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).tail(1))
+            kept_rows.append(tdf.groupby('visit_occurrence_id').tail(1))
         else:
-            kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).head(1))
+            kept_rows.append(tdf.groupby('visit_occurrence_id').head(1))
 
     
     return pd.DataFrame(np.concatenate(kept_rows).flat)
