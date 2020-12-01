@@ -113,8 +113,14 @@ ORDER BY p.visit_occurrence_id
     Ptwithscores_drop_before_table_1=Input(rid="ri.foundry.main.dataset.d345497b-ebed-4055-90aa-48b38b346396"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
 )
-SELECT *, DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date
---FROM Pt_table_w_derived_scores
+SELECT
+    *,
+    DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date,
+    CASE
+        WHEN ECMO = TRUE OR Invasive_Ventilation = TRUE OR in_death_table = TRUE THEN TRUE
+        ELSE FALSE
+        END AS bad_outcome
+--FROM Pt_table_w_derived_scores -- this table doesn't have all the filters that Ptwithscores_drop_before_table_1 has
 FROM Ptwithscores_drop_before_table_1
 WHERE 1 = 1
 AND visit_concept_name LIKE 'Inpatient%'
