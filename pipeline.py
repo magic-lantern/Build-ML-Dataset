@@ -97,6 +97,13 @@ def inpatient_worst_labs( inpatient_labs):
     return kept_rows
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.db785582-1f50-4657-80ec-ae310cba140f"),
+    inpatient_worst_labs=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
+)
+def unnamed_1(inpatient_worst_labs):
+    
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
     inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
