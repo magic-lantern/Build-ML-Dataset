@@ -36,10 +36,12 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5"),
-    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
+    test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
-def inpatient_worst_labs( inpatient_labs):
-    df = inpatient_labs
+def inpatient_worst_labs( inpatient_labs, test_lab_filter):
+    #df = inpatient_labs
+    df = test_lab_filter
 
     # likely will want to adjust this window
     df = df.filter((df.measurement_day_of_visit <= 1) & (df.harmonized_value_as_number.isNotNull()))
