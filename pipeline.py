@@ -36,5 +36,29 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
 )
 def worst_lab(test_lab_filter):
     df = test_lab_filter
+
+    # likely will want to adjust this window
+    df.filter(df.measurement_day_of_visit <= 1)
+    
+    labs = ['Body weight',
+            'Systolic blood pressure',
+            'Diastolic blood pressure',
+            'White blood cell count,  x10E3/uL',
+            'Platelet count, x10E3/uL',
+            'Hemoglobin, g/dL',
+            'Glucose, mg/dL',
+            'Creatinine, mg/dL',
+            'Sodium, mmol/L',
+            'BUN, mg/dL  ',
+            'Potassium, mmol/L',
+            'Chloride, mmol/L',
+            'Height',
+            'SpO2',
+            'BMI']
+    
+    for l in labs:
+        tdf = df.filter(df.alias == l)
+        tdf.groupby('visit_occurrence_id', 'alias')
+
     
 
