@@ -33,6 +33,13 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     return pivot_df
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.8bd81999-be5f-4ac4-b3f6-57abd8dd610d"),
+    test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
+)
+def unnamed_1(test_lab_filter):
+    
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.853d50df-0c31-47d8-b208-f838f2363ff2"),
     inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
