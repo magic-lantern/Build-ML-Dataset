@@ -139,7 +139,7 @@ def worst_lab_v2(test_lab_filter):
         'Troponin all types, ng/mL': 'high',
         'White blood cell count,  x10E3/uL': 'high'}
 
-    df.sort(['visit_occurrence_id', 'alias', 'harmonized_value_as_number'])
+    df = df.sort(['visit_occurrence_id', 'alias', 'harmonized_value_as_number'])
 
     kept_rows = None
     for l in labs:
