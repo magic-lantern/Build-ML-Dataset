@@ -97,11 +97,13 @@ def inpatient_worst_labs( inpatient_labs):
     return kept_rows
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.db785582-1f50-4657-80ec-ae310cba140f"),
+    Output(rid="ri.foundry.main.dataset.c1c6e3b9-83ff-421a-b5c6-75518beec801"),
     inpatient_worst_labs=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
 )
-def unnamed_1(inpatient_worst_labs):
-    
+def inpatient_worst_labs_pivoted(inpatient_worst_labs):
+    df = inpatient_worst_labs
+    df = df.select('visit_occurrence_id', 'harmonized_value_as_number', 'alias')
+    return df.groupby("visit_occurrence_id").pivot("alias")
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
