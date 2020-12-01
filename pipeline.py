@@ -102,7 +102,7 @@ def worst_lab_v2(test_lab_filter):
     df = test_lab_filter
 
     # likely will want to adjust this window
-    df.filter(df.measurement_day_of_visit <= 1)
+    df = df.filter(df.measurement_day_of_visit <= 1)
 
     labs = {'ALT (SGPT), IU/L': 'high',
         'AST (SGOT), IU/L': 'high',
