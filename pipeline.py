@@ -157,68 +157,6 @@ def worst_lab_pd(test_lab_filter, inpatient_labs):
     return pd.DataFrame(np.concatenate(kept_rows).flat)
 
 @transform_pandas(
-    Output(rid="ri.foundry.main.dataset.468dd308-caf1-4169-aebc-4f5df4b8c11f"),
-    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
-)
-def worst_labs_part1(inpatient_labs):
-    df = inpatient_labs
-
-    # likely will want to adjust this window
-    df = df.filter(df.measurement_day_of_visit <= 1)
-
-    labs1 = {'ALT (SGPT), IU/L': 'high',
-            'AST (SGOT), IU/L': 'high',
-            'Blood type (ABO + Rh)': 'categorical',
-            'BMI': 'high',
-            'BNP, pg/mL': 'high',
-            'Body weight': 'high',
-            'BUN, mg/dL  ': 'high',
-            'c-reactive protein CRP, mg/L': 'high',
-            'Chloride, mmol/L': 'high',
-            'Creatinine, mg/dL': 'high',
-            'D-Dimer, mg/L FEU': 'high'}
-    labs2 = {'Diastolic blood pressure': 'low',
-            'Erythrocyte Sed. Rate, mm/hr': 'high',
-            'Ferritin, ng/mL': 'high',
-            'Glasgow coma scale (GCS) Total': 'low',
-            'Glucose, mg/dL': 'high',
-            'Heart rate': 'high',
-            'Hemoglobin A1c, %': 'high',
-            'Hemoglobin, g/dL': 'low',
-            'Lactate, mg/dL': 'high',
-            'Lymphocytes (absolute),  x10E3/uL': 'high',
-            'Neutrophils (absolute),  x10E3/uL': 'high'}
-    labs3 = {'NT pro BNP, pg/mL': 'high',
-            'pH': 'low',
-            'Platelet count, x10E3/uL': 'low',
-            'Potassium, mmol/L': 'high',
-            'Procalcitonin, ng/mL': 'high',
-            'Respiratory rate': 'high',
-            'Sodium, mmol/L': 'high',
-            'SpO2': 'low',
-            'Systolic blood pressure': 'low',
-            'Temperature': 'high',
-            'Troponin all types, ng/mL': 'high',
-            'White blood cell count,  x10E3/uL': 'high'}
-    labs = labs1
-    kept_rows = None
-    for l in labs:
-        ldf = df.filter(df['alias'] == l)
-        if labs[l] == 'high':
-            windowspec  = Window.partitionBy('visit_occurrence_id').orderBy('harmonized_value_as_number')
-        else:
-            windowspec  = Window.partitionBy('visit_occurrence_id').orderBy(F.desc('harmonized_value_as_number'))
-
-        gldf = ldf.withColumn('row_number', row_number().over(windowspec)).filter(col('row_number') == 1).drop('row_number')
-
-        if kept_rows is None:
-            kept_rows = gldf
-        else:
-            kept_rows = gldf.union(kept_rows)
-
-    return kept_rows
-
-@transform_pandas(
     Output(rid="ri.foundry.main.dataset.5720b0da-fe57-445a-a4fd-40dc4c485af1"),
     inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
