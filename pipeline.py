@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from pyspark.sql import functions as F
 from pyspark.sql.functions import max, mean, min, stddev, lit, regexp_replace, col
 import numpy as np
+import pandas as pd
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
@@ -40,7 +41,7 @@ def worst_lab(test_lab_filter):
 
     # likely will want to adjust this window
     df.filter(df.measurement_day_of_visit <= 1)
-    
+
     labs = {'ALT (SGPT), IU/L': 'high',
         'AST (SGOT), IU/L': 'high',
         'Blood type (ABO + Rh)': 'categorical',
@@ -75,16 +76,17 @@ def worst_lab(test_lab_filter):
         'Temperature': 'high',
         'Troponin all types, ng/mL': 'high',
         'White blood cell count,  x10E3/uL': 'high'}
-    
+
     df.sort(['visit_occurrence_id', 'alias', 'harmonized_value_as_number'])
 
     kept_rows = []
     for l in labs:
-        tdf = df.filter(df['alias'] == l)
-        if labs[l] == 'high':
-            print('found high lab', l)
-        else:
-            print('found low lab', l)
-    
-    return
+        tdf = df.filter(df['alias'] == l).toPandas()
+        if (len(tdf) > 0):
+            if labs[l] == 'high':
+                kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).last().to_dict(orient="records"))
+            else:
+                kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
+
+    return pd.DataFrame(np.concatenate(kept_rows).flat)
 
