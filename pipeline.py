@@ -200,9 +200,9 @@ def worst_labs_part1(inpatient_labs):
             'Temperature': 'high',
             'Troponin all types, ng/mL': 'high',
             'White blood cell count,  x10E3/uL': 'high'}
-
+    labs = labs1
     kept_rows = None
-    for l in labs1:
+    for l in labs:
         ldf = df.filter(df['alias'] == l)
         if labs[l] == 'high':
             windowspec  = Window.partitionBy('visit_occurrence_id').orderBy('harmonized_value_as_number')
@@ -262,9 +262,9 @@ def worst_labs_part2(inpatient_labs):
             'Temperature': 'high',
             'Troponin all types, ng/mL': 'high',
             'White blood cell count,  x10E3/uL': 'high'}
-
+    labs = labs2
     kept_rows = None
-    for l in labs2:
+    for l in labs:
         ldf = df.filter(df['alias'] == l)
         if labs[l] == 'high':
             windowspec  = Window.partitionBy('visit_occurrence_id').orderBy('harmonized_value_as_number')
@@ -324,9 +324,9 @@ def worst_labs_part3(inpatient_labs):
             'Temperature': 'high',
             'Troponin all types, ng/mL': 'high',
             'White blood cell count,  x10E3/uL': 'high'}
-
+    labs = labs3
     kept_rows = None
-    for l in labs3:
+    for l in labs:
         ldf = df.filter(df['alias'] == l)
         if labs[l] == 'high':
             windowspec  = Window.partitionBy('visit_occurrence_id').orderBy('harmonized_value_as_number')
