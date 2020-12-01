@@ -125,7 +125,7 @@ SELECT
     *,
     DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date,
     CASE
-        WHEN ECMO = TRUE OR Invasive_Ventilation = TRUE OR in_death_table = TRUE THEN TRUE
+        WHEN ECMO = TRUE OR Invasive_Ventilation IS NOT NULL OR in_death_table = TRUE THEN TRUE
         ELSE FALSE
         END AS bad_outcome
 --FROM Pt_table_w_derived_scores -- this table doesn't have all the filters that Ptwithscores_drop_before_table_1 has
