@@ -86,9 +86,9 @@ def inpatient_worst_labs( inpatient_labs, test_lab_filter):
     for l in labs:
         ldf = df.filter(df['alias'] == l)
         if labs[l] == 'high':
-            windowspec  = Window.partitionBy('visit_occurrence_id').orderBy('harmonized_value_as_number')
-        else:
             windowspec  = Window.partitionBy('visit_occurrence_id').orderBy(F.desc('harmonized_value_as_number'))
+        else:
+            windowspec  = Window.partitionBy('visit_occurrence_id').orderBy('harmonized_value_as_number')
 
         gldf = ldf.withColumn('row_number', row_number().over(windowspec)).filter(col('row_number') == 1).drop('row_number')
 
