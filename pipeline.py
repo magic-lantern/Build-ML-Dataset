@@ -42,7 +42,7 @@ def inpatient_worst_labs( inpatient_labs):
     df = inpatient_labs
 
     # likely will want to adjust this window
-    df = df.filter(df.measurement_day_of_visit <= 1)
+    df = df.filter((df.measurement_day_of_visit <= 1) & (df.harmonized_value_as_number.isNotNull()))
 
     labs = {'ALT (SGPT), IU/L': 'high',
         'AST (SGOT), IU/L': 'high',
@@ -78,6 +78,7 @@ def inpatient_worst_labs( inpatient_labs):
         'Temperature': 'high',
         'Troponin all types, ng/mL': 'high',
         'White blood cell count,  x10E3/uL': 'high'}
+    labs = {'White blood cell count,  x10E3/uL': 'high'}
 
     kept_rows = None
     for l in labs:
