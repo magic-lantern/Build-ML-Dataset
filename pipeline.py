@@ -4,6 +4,8 @@ from pyspark.sql import functions as F
 from pyspark.sql.functions import max, mean, min, stddev, lit, regexp_replace, col
 import numpy as np
 import pandas as pd
+from pyspark.sql.window import Window
+from pyspark.sql.functions import row_number
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
@@ -42,7 +44,7 @@ def worst_lab_pd(test_lab_filter, inpatient_labs):
     # df = inpatient_labs
 
     # likely will want to adjust this window
-    df.filter(df.measurement_day_of_visit <= 1)
+    df = df.filter(df.measurement_day_of_visit <= 1)
 
     labs = {'ALT (SGPT), IU/L': 'high',
         'AST (SGOT), IU/L': 'high',
