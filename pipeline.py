@@ -35,13 +35,6 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     return pivot_df
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.b74a2986-060f-42da-b6d8-d6ca703a2e66"),
-    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
-)
-def unnamed_1(inpatient_labs):
-    
-
-@transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
     inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
@@ -214,6 +207,44 @@ def worst_lab_v3(test_lab_filter, inpatient_labs):
         'Temperature': 'high',
         'Troponin all types, ng/mL': 'high',
         'White blood cell count,  x10E3/uL': 'high'}
+
+    kept_rows = None
+    for l in labs:
+        ldf = df.filter(df['alias'] == l)
+        if labs[l] == 'high':
+            windowspec  = Window.partitionBy('visit_occurrence_id').orderBy('harmonized_value_as_number')
+        else:
+            windowspec  = Window.partitionBy('visit_occurrence_id').orderBy(F.desc('harmonized_value_as_number'))
+
+        gldf = ldf.withColumn('row_number', row_number().over(windowspec)).filter(col('row_number') == 1).drop('row_number')
+
+        if kept_rows is None:
+            kept_rows = gldf
+        else:
+            kept_rows = gldf.union(kept_rows)
+
+    return kept_rows
+
+@transform_pandas(
+    Output(rid="ri.foundry.main.dataset.468dd308-caf1-4169-aebc-4f5df4b8c11f"),
+    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
+)
+def worst_labs_part1(inpatient_labs):
+    df = inpatient_labs
+
+    # likely will want to adjust this window
+    df = df.filter(df.measurement_day_of_visit <= 1)
+
+    labs = {'ALT (SGPT), IU/L': 'high',
+        'AST (SGOT), IU/L': 'high',
+        'Blood type (ABO + Rh)': 'categorical',
+        'BMI': 'high',
+        'BNP, pg/mL': 'high',
+        'Body weight': 'high',
+        'BUN, mg/dL  ': 'high',
+        'c-reactive protein CRP, mg/L': 'high',
+        'Chloride, mmol/L': 'high',
+        'Creatinine, mg/dL': 'high'}
 
     kept_rows = None
     for l in labs:
