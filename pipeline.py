@@ -2,6 +2,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from pyspark.sql import functions as F
 from pyspark.sql.functions import max, mean, min, stddev, lit, regexp_replace, col
+import numpy as np
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
@@ -79,12 +80,12 @@ def worst_lab(test_lab_filter):
 
     kept_rows = []
     for l in labs:
-    tdf = df[df.alias == l]
-    if (len(tdf) > 0):
-        if labs[l] == 'high':
-            kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).last().to_dict(orient="records"))
-        else:
-            kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
+        tdf = df[df.alias == l]
+        if (len(tdf) > 0):
+            if labs[l] == 'high':
+                kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).last().to_dict(orient="records"))
+            else:
+                kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
 
     
     return pd.DataFrame(np.concatenate(kept_rows).flat)
