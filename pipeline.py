@@ -40,25 +40,52 @@ def worst_lab(test_lab_filter):
     # likely will want to adjust this window
     df.filter(df.measurement_day_of_visit <= 1)
     
-    labs = ['Body weight',
-            'Systolic blood pressure',
-            'Diastolic blood pressure',
-            'White blood cell count,  x10E3/uL',
-            'Platelet count, x10E3/uL',
-            'Hemoglobin, g/dL',
-            'Glucose, mg/dL',
-            'Creatinine, mg/dL',
-            'Sodium, mmol/L',
-            'BUN, mg/dL  ',
-            'Potassium, mmol/L',
-            'Chloride, mmol/L',
-            'Height',
-            'SpO2',
-            'BMI']
+    labs = {'ALT (SGPT), IU/L': 'high',
+        'AST (SGOT), IU/L': 'high',
+        'Blood type (ABO + Rh)': 'categorical',
+        'BMI': 'high',
+        'BNP, pg/mL': 'high',
+        'Body weight': 'high',
+        'BUN, mg/dL  ': 'high',
+        'c-reactive protein CRP, mg/L': 'high',
+        'Chloride, mmol/L': 'high',
+        'Creatinine, mg/dL': 'high',
+        'D-Dimer, mg/L FEU': 'high',
+        'Diastolic blood pressure': 'low',
+        'Erythrocyte Sed. Rate, mm/hr': 'high',
+        'Ferritin, ng/mL': 'high',
+        'Glasgow coma scale (GCS) Total': 'low',
+        'Glucose, mg/dL': 'high',
+        'Heart rate': 'high',
+        'Hemoglobin A1c, %': 'high',
+        'Hemoglobin, g/dL': 'low',
+        'Lactate, mg/dL': 'high',
+        'Lymphocytes (absolute),  x10E3/uL': 'high',
+        'Neutrophils (absolute),  x10E3/uL': 'high',
+        'NT pro BNP, pg/mL': 'high',
+        'pH': 'low',
+        'Platelet count, x10E3/uL': 'low',
+        'Potassium, mmol/L': 'high',
+        'Procalcitonin, ng/mL': 'high',
+        'Respiratory rate': 'high',
+        'Sodium, mmol/L': 'high',
+        'SpO2': 'low',
+        'Systolic blood pressure': 'low',
+        'Temperature': 'high',
+        'Troponin all types, ng/mL': 'high',
+        'White blood cell count,  x10E3/uL': 'high'}
     
+    df.sort(['visit_occurrence_id', 'alias', 'harmonized_value_as_number'])
+
+    kept_rows = []
     for l in labs:
-        tdf = df.filter(df.alias == l)
-        tdf.groupby('visit_occurrence_id', 'alias')
+    tdf = df[df.alias == l]
+    if (len(tdf) > 0):
+        if labs[l] == 'high':
+            kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).last().to_dict(orient="records"))
+        else:
+            kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
 
     
+    return pd.DataFrame(np.concatenate(kept_rows).flat)
 
