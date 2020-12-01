@@ -24,6 +24,14 @@ select * from
 )
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.d854a95d-fd7a-4781-9b4b-eac1bd597afb"),
+    test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
+)
+SELECT *
+FROM test_lab_filter
+where measurement_day_of_visit <= 1
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
@@ -232,13 +240,6 @@ OR visit_occurrence_id = 1000115681187938502
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.fdc77ec6-6728-442c-a811-fe3baa2e24a1"),
-    test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
-)
-SELECT *
-FROM test_lab_filter
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
