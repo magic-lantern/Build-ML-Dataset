@@ -93,7 +93,7 @@ def worst_lab(test_lab_filter, inpatient_labs):
     return pd.DataFrame(np.concatenate(kept_rows).flat)
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.8bd81999-be5f-4ac4-b3f6-57abd8dd610d"),
+    Output(rid="ri.foundry.main.dataset.1e10637c-6bfb-49d6-9ff4-f5953aed0f43"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
 def worst_lab_v2(test_lab_filter):
@@ -104,7 +104,7 @@ def worst_lab_v2(test_lab_filter):
 
     labs = {'ALT (SGPT), IU/L': 'high',
         'AST (SGOT), IU/L': 'high',
-        'Blood type (ABO + Rh)': 'categorical', # this is a unique case will need to investigate how to handle
+        'Blood type (ABO + Rh)': 'categorical',
         'BMI': 'high',
         'BNP, pg/mL': 'high',
         'Body weight': 'high',
@@ -139,14 +139,23 @@ def worst_lab_v2(test_lab_filter):
 
     df.sort(['visit_occurrence_id', 'alias', 'harmonized_value_as_number'])
 
-    kept_rows = []
+    kept_rows = None
     for l in labs:
         tdf = df.filter(df['alias'] == l)
-        if (len(tdf) > 0):
-            if labs[l] == 'high':
-                kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).last().to_dict(orient="records"))
-            else:
-                kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
+        if labs[l] == 'high':
+            # https://stackoverflow.com/questions/48829993/groupby-column-and-filter-rows-with-maximum-value-in-pyspark
+            newdf = tdf.join(tdf.groupBy('visit_occurrence_id').agg(
+                F.max('harmonized_value_as_number').alias('harmonized_value_as_number')),
+                on='harmonized_value_as_number', how='leftsemi')
+        else:
+            newdf = tdf.join(tdf.groupBy('visit_occurrence_id').agg(
+                F.min('harmonized_value_as_number').alias('harmonized_value_as_number')),
+                on='harmonized_value_as_number', how='leftsemi')
 
-    return
+        if kept_rows is None:
+            kept_rows = newdf
+        else:
+            kept_rows = newdf.union(kept_rows)
+
+    return kept_rows
 
