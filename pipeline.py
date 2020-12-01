@@ -80,7 +80,6 @@ def inpatient_worst_labs( inpatient_labs, test_lab_filter):
         'Temperature': 'high',
         'Troponin all types, ng/mL': 'high',
         'White blood cell count,  x10E3/uL': 'high'}
-    labs = {'White blood cell count,  x10E3/uL': 'high'}
 
     kept_rows = None
     for l in labs:
