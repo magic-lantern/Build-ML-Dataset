@@ -71,6 +71,7 @@ SELECT DISTINCT
     v.visit_end_date,
     measurement_date,
     measurement_datetime,
+    measurement_time,
     value_as_number,
     value_as_concept_id,
     harmonized_value_as_number,
