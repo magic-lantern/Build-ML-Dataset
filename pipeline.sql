@@ -62,19 +62,6 @@ LEFT JOIN inpatients v
     ON c.person_id = v.person_id
 
 @transform_pandas(
-    Output(rid="ri.foundry.main.dataset.73d1fd87-b64c-4b43-999c-a45101a0f2e9"),
-    IMV_ECMO_unique_visits=Input(rid="ri.foundry.main.dataset.b2d028ae-aeb5-446f-b226-8980c448db31"),
-    inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
-)
-SELECT DISTINCT
-    e.visit_occurrence_id,
-    true AS ecmo_or_vent
-FROM IMV_ECMO_unique_visits e
-INNER JOIN inpatients i
-ON i.visit_occurrence_id = e.visit_occurrence_id
-ORDER BY visit_occurrence_id
-
-@transform_pandas(
     Output(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8"),
     inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
@@ -252,6 +239,9 @@ WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.09f40f23-0dad-4d7d-bf5a-9f8116f618bc"),
+    inpatient_charlson=Input(rid="ri.foundry.main.dataset.1da536da-5594-4df1-98cf-d364d2773b3e"),
+    inpatient_payer=Input(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
+    inpatient_worst_labs=Input(rid="ri.foundry.main.dataset.c1c6e3b9-83ff-421a-b5c6-75518beec801"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
 SELECT *
