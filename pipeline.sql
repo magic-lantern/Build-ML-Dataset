@@ -138,7 +138,7 @@ SELECT
     'covid_status_name',
     'Severity_Type',
     'Q_Score',
-    'Testcount'
+    'Testcount',
     DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date,
     CASE
         WHEN ECMO IS NOT NULL THEN TRUE
