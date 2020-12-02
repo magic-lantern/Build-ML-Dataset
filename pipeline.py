@@ -103,8 +103,7 @@ def inpatient_worst_labs( inpatient_labs):
 def inpatient_worst_labs_pivoted(inpatient_worst_labs):
     df = inpatient_worst_labs
     df = df.select('visit_occurrence_id', 'harmonized_value_as_number', 'alias')
-    dfg = df.groupby("visit_occurrence_id").pivot("alias")
-    return dfg
+    return df.groupby("visit_occurrence_id").pivot("alias").mean()
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
