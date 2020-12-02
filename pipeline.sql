@@ -64,7 +64,6 @@ LEFT JOIN inpatients v
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8"),
-    inpatient_bestVisitPossible=Input(rid="ri.foundry.main.dataset.2ae94403-e46c-4586-9863-470e06737fcc"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
 SELECT DISTINCT
@@ -162,6 +161,7 @@ WHERE -- year(measurement_datetime) = 1900
 )
 SELECT
     visit_concept_name, 
+    count(1) AS num_visits,
     MIN(length_of_stay) AS min_los,
     MAX(length_of_stay) AS max_los,
     MEAN(length_of_stay) AS mean_los
