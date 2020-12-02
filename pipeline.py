@@ -33,6 +33,8 @@ def inpatient_ml_dataset(inpatients, inpatient_charlson, inpatient_worst_labs, i
     df = df.join(pdf, pdf.v_id == df.visit_occurrence_id, 'left_outer')
     df = df.drop('v_id')
 
+    df = df.select([F.col(x).alias(x.lower()) for x in df.columns])
+
     return df
 
 @transform_pandas(
@@ -71,7 +73,7 @@ def inpatient_worst_labs(inpatient_worst_labs_full):
     df = df.select('visit_occurrence_id', 'harmonized_value_as_number', 'alias')
     df = df.withColumn("alias", regexp_replace("alias", "\s+", " "))
     df = df.withColumn("alias", regexp_replace("alias", "[/ ]", "_"))
-    df = df.withColumn("alias", regexp_replace("alias", "[(),]", ""))
+    df = df.withColumn("alias", regexp_replace("alias", "[.(),]", ""))
     df = df.withColumn("alias", F.lower(col("alias")))
     return df.groupby("visit_occurrence_id").pivot("alias").mean()
 
