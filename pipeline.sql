@@ -238,7 +238,7 @@ OR visit_occurrence_id = 1000115681187938502
     inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
 )
 SELECT *
-FROM inpatient_worst_labs
+FROM inpatient_worst_labs_full
 WHERE visit_occurrence_id = 2089553554350138032
 OR visit_occurrence_id = 1000115681187938502
 
