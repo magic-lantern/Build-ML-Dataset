@@ -124,10 +124,6 @@ SELECT
     visit_start_date,
     visit_concept_name,
     visit_occurrence_id,
-    positive_covid_test,
-    negative_covid_test,
-    Suspected_COVID,
-    in_death_table,
     age_at_visit_start_in_years_int,
     length_of_stay,
     gender_concept_name,
@@ -140,6 +136,22 @@ SELECT
     Q_Score,
     Testcount,
     DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date,
+    CASE
+        WHEN positive_covid_test IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS positive_covid_test,
+    CASE
+        WHEN negative_covid_test IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS negative_covid_test,
+    CASE
+        WHEN Suspected_COVID IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS suspected_covid,
+    CASE
+        WHEN in_death_table IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS in_death_table,
     CASE
         WHEN ECMO IS NOT NULL THEN TRUE
         ELSE FALSE
