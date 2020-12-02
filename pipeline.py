@@ -35,10 +35,22 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     return pivot_df
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.c1c6e3b9-83ff-421a-b5c6-75518beec801"),
+    inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
+)
+def inpatient_worst_labs(inpatient_worst_labs_full):
+    df = inpatient_worst_labs_full
+    df = df.select('visit_occurrence_id', 'harmonized_value_as_number', 'alias')
+    df = df.withColumn("alias", regexp_replace("alias", "[/ ]", "_"))
+    df = df.withColumn("alias", regexp_replace("alias", "[(),]", ""))
+    df = df.withColumn("alias", F.lower(col("alias")))
+    return df.groupby("visit_occurrence_id").pivot("alias").mean()
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5"),
     inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2")
 )
-def inpatient_worst_labs( inpatient_labs):
+def inpatient_worst_labs_full( inpatient_labs):
     df = inpatient_labs
 
     # likely will want to adjust this window
@@ -95,18 +107,6 @@ def inpatient_worst_labs( inpatient_labs):
             kept_rows = gldf.union(kept_rows)
 
     return kept_rows
-
-@transform_pandas(
-    Output(rid="ri.foundry.main.dataset.c1c6e3b9-83ff-421a-b5c6-75518beec801"),
-    inpatient_worst_labs=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
-)
-def inpatient_worst_labs_pivoted(inpatient_worst_labs):
-    df = inpatient_worst_labs
-    df = df.select('visit_occurrence_id', 'harmonized_value_as_number', 'alias')
-    df = df.withColumn("alias", regexp_replace("alias", "[/ ]", "_"))
-    df = df.withColumn("alias", regexp_replace("alias", "[(),]", ""))
-    df = df.withColumn("alias", F.lower(col("alias")))
-    return df.groupby("visit_occurrence_id").pivot("alias").mean()
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
