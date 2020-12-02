@@ -117,7 +117,28 @@ ORDER BY p.visit_occurrence_id
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
 )
 SELECT
-    *,
+    -- manually specifying most columns as spark sql doesn't seem to support * EXCEPT () syntax
+    'person_id',
+    'data_partner_id',
+    'visit_concept_id',
+    'visit_start_date',
+    'visit_concept_name',
+    'visit_occurrence_id',
+    'positive_covid_test',
+    'negative_covid_test',
+    'Suspected_COVID',
+    'in_death_table',
+    'age_at_visit_start_in_years_int',
+    'length_of_stay',
+    'gender_concept_name',
+    'Race',
+    'Ethnicity',
+    'smoking_status',
+    'blood_type',
+    'covid_status_name',
+    'Severity_Type',
+    'Q_Score',
+    'Testcount'
     DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date,
     CASE
         WHEN ECMO IS NOT NULL THEN TRUE
