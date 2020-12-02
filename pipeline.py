@@ -103,6 +103,9 @@ def inpatient_worst_labs( inpatient_labs):
 def inpatient_worst_labs_pivoted(inpatient_worst_labs):
     df = inpatient_worst_labs
     df = df.select('visit_occurrence_id', 'harmonized_value_as_number', 'alias')
+    df = df.withColumn("alias", regexp_replace("alias", "/[/ ]/", "_"))
+    df = df.withColumn("alias", regexp_replace("alias", "/[(),]/", ""))
+    df = df.withColumn("alias", F.lower(col("alias")))
     return df.groupby("visit_occurrence_id").pivot("alias").mean()
 
 @transform_pandas(
