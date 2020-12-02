@@ -63,7 +63,7 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     pivot_df = pivot_df.select(*[col(c) if c == 'visit_occurrence_id' else col(c).cast('boolean') for c in pivot_df.columns])
     pivot_df = pivot_df.drop('null')
     # make this column name more unique and clear
-    pivot_df.withColumnRenamed('no_matching_concept', 'payer_no_matching_concept')
+    pivot_df = pivot_df.withColumnRenamed('no_matching_concept', 'payer_no_matching_concept')
     
     return pivot_df
 
