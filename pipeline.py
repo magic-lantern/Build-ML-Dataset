@@ -30,7 +30,7 @@ def inpatient_ml_dataset(inpatients, inpatient_charlson, inpatient_worst_labs, i
     df = df.join(ldf, ldf.v_id == df.visit_occurrence_id, 'left_outer')
     df = df.drop('v_id')
 
-    df = df.join(pdf, ldf.v_id == df.visit_occurrence_id, 'left_outer')
+    df = df.join(pdf, pdf.v_id == df.visit_occurrence_id, 'left_outer')
     df = df.drop('v_id')
 
     return df
