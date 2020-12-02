@@ -20,12 +20,12 @@ def inpatient_ml_dataset(inpatients, inpatient_charlson, inpatient_worst_labs, i
     ldf = inpatient_worst_labs
     pdf = inpatient_payer
     
-    cdf = cdf.withColumnRenamed('visit_occurrence_id', 'v_id')
+    cdf = cdf.withColumnRenamed('person_id', 'p_id')
     ldf = ldf.withColumnRenamed('visit_occurrence_id', 'v_id')
     pdf = pdf.withColumnRenamed('visit_occurrence_id', 'v_id')
 
-    df.join(cdf, cdf['v_id'] == df.visit_occurrence_id, 'left')
-    df.drop('v_id')
+    df.join(cdf, cdf.p_id == df.person_id, 'left')
+    df.drop('p_id')
 
     df.join(ldf, ldf['v_id'] == df.visit_occurrence_id, 'left')
     df.drop('v_id')
@@ -120,6 +120,7 @@ def inpatient_worst_labs_full( inpatient_labs):
         'Troponin all types, ng/mL': 'high',
         'White blood cell count,  x10E3/uL': 'high'}
 
+    # https://sparkbyexamples.com/spark/spark-dataframe-how-to-select-the-first-row-of-each-group/
     kept_rows = None
     for l in labs:
         ldf = df.filter(df['alias'] == l)
