@@ -41,6 +41,7 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
 def inpatient_worst_labs(inpatient_worst_labs_full):
     df = inpatient_worst_labs_full
     df = df.select('visit_occurrence_id', 'harmonized_value_as_number', 'alias')
+    df = df.withColumn("alias", regexp_replace("alias", "\s+", " "))
     df = df.withColumn("alias", regexp_replace("alias", "[/ ]", "_"))
     df = df.withColumn("alias", regexp_replace("alias", "[(),]", ""))
     df = df.withColumn("alias", F.lower(col("alias")))
