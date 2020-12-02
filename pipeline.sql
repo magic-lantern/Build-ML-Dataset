@@ -120,9 +120,21 @@ SELECT
     *,
     DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date,
     CASE
+        WHEN ECMO IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS ecmo,
+    CASE
+        WHEN AKI_in_hospital IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS aki_in_hospital,
+    CASE
+        WHEN Invasive_Ventilation IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS invasive_ventilation,
+    CASE
         WHEN ECMO IS NOT NULL OR Invasive_Ventilation IS NOT NULL OR in_death_table = TRUE THEN TRUE
         ELSE FALSE
-        END AS bad_outcome
+    END AS bad_outcome
 --FROM Pt_table_w_derived_scores -- this table doesn't have all the filters that Ptwithscores_drop_before_table_1 has
 FROM Ptwithscores_drop_before_table_1
 WHERE 1 = 1
