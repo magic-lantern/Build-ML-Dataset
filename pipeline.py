@@ -8,14 +8,13 @@ from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.09f40f23-0dad-4d7d-bf5a-9f8116f618bc"),
+    Output(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1"),
     inpatient_charlson=Input(rid="ri.foundry.main.dataset.1da536da-5594-4df1-98cf-d364d2773b3e"),
     inpatient_payer=Input(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
     inpatient_worst_labs=Input(rid="ri.foundry.main.dataset.c1c6e3b9-83ff-421a-b5c6-75518beec801"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
 def inpatient_ml_dataset(inpatients, inpatient_charlson, inpatient_worst_labs, inpatient_payer):
-    
     df = inpatients
     cdf = inpatient_charlson
     ldf = inpatient_worst_labs
@@ -25,29 +24,16 @@ def inpatient_ml_dataset(inpatients, inpatient_charlson, inpatient_worst_labs, i
     ldf = ldf.withColumnRenamed('visit_occurrence_id', 'v_id')
     pdf = pdf.withColumnRenamed('visit_occurrence_id', 'v_id')
 
-    df.join(cdf, cdf.v_id == df.visit_occurrence_id, left)
+    df.join(cdf, cdf.v_id == df.visit_occurrence_id, 'left')
     df.drop('v_id')
 
-    df.join(ldf, ldf.v_id == df.visit_occurrence_id, left)
+    df.join(ldf, ldf.v_id == df.visit_occurrence_id, 'left')
     df.drop('v_id')
 
-    pdf.join(idf, idf["v_id"] == pdf["visit_occurrence_id"], "left")
+    df.join(pdf, ldf.v_id == df.visit_occurrence_id, 'left')
+    df.drop('v_id')
 
-    idf = idf.withColumnRenamed("visit_occurrence_id", "v_id")
-
-    df = pdf.join(idf, idf["v_id"] == pdf["visit_occurrence_id"], "inner")
-    df = df.drop("v_id")
-
-    SELECT 
-    i.*,
-    c.
-FROM inpatients i
-LEFT JOIN  inpatient_charlson c
-    ON i.visit_occurrence_id = c.visit_occurrence_id
-LEFT JOIN inpatient_worst_labs l
-    ON i.visit_occurrence_id = l.visit_occurrence_id
-LEFT JOIN inpatient_payer p
-    ON i.visit_occurrence_id = p.visit_occurrence_id
+    return df
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
