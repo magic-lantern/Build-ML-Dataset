@@ -24,13 +24,13 @@ def inpatient_ml_dataset(inpatients, inpatient_charlson, inpatient_worst_labs, i
     ldf = ldf.withColumnRenamed('visit_occurrence_id', 'v_id')
     pdf = pdf.withColumnRenamed('visit_occurrence_id', 'v_id')
 
-    df = df.join(cdf, cdf.p_id == df.person_id, 'left')
+    df = df.join(cdf, cdf.p_id == df.person_id, 'left_outer')
     df = df.drop('p_id')
 
-    df = df.join(ldf, ldf['v_id'] == df.visit_occurrence_id, 'left')
+    df = df.join(ldf, ldf.v_id == df.visit_occurrence_id, 'left_outer')
     df = df.drop('v_id')
 
-    df = df.join(pdf, ldf['v_id'] == df.visit_occurrence_id, 'left')
+    df = df.join(pdf, ldf.v_id == df.visit_occurrence_id, 'left_outer')
     df = df.drop('v_id')
 
     return df
