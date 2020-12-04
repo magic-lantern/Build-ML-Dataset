@@ -375,6 +375,13 @@ FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.aa5cf6f0-f8f7-4fc0-a264-ef4c799cfd5f"),
+    pt_table_drop_unaffected=Input(rid="ri.foundry.main.dataset.52e25a99-5ccd-40d2-a91b-56122e3174ce")
+)
+SELECT *
+FROM pt_table_drop_unaffected
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
