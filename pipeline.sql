@@ -352,7 +352,7 @@ LEFT JOIN (
 on o.alias = mv.alias
 LEFT JOIN (
     SELECT
-        MIN(harmonizde_value_as_number) AS min_value
+        MIN(harmonizde_value_as_number) AS min_value,
         MAX(harmonized_value_as_number) AS max_value,
         MEAN(harmonizde_value_as_number) AS mean_value,
         MEDIAN(harmonizde_value_as_number) AS median_value,
