@@ -352,10 +352,10 @@ LEFT JOIN (
 on o.alias = mv.alias
 LEFT JOIN (
     SELECT
-        MIN(harmonizde_value_as_number) AS min_value,
+        MIN(harmonized_value_as_number) AS min_value,
         MAX(harmonized_value_as_number) AS max_value,
-        MEAN(harmonizde_value_as_number) AS mean_value,
-        MEDIAN(harmonizde_value_as_number) AS median_value,
+        MEAN(harmonized_value_as_number) AS mean_value,
+        percentile_approx(harmonized_value_as_number, 0.5) AS median_value,
         Alias as alias
     FROM Filterwithcodesetaliastable
     group by Alias) sv
