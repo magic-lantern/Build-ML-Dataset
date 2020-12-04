@@ -333,7 +333,15 @@ GROUP BY severity_type
     Output(rid="ri.foundry.main.dataset.bdcd1f3c-5c7e-4297-a45d-1ed1011fb591"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8")
 )
-SELECT o.num_obs, mv.num_vist_w_obs, o.alias FROM
+SELECT 
+    o.num_obs,
+    mv.num_vist_w_obs,
+    sv.min_value,
+    sv.max_value,
+    sv.mean_value,
+    sv.median_value,
+    o.alias
+FROM
 (SELECT count(1) as num_obs, Alias as alias
 FROM Filterwithcodesetaliastable
 group by Alias) o
@@ -342,6 +350,17 @@ LEFT JOIN (
     FROM Filterwithcodesetaliastable
     group by Alias) mv
 on o.alias = mv.alias
+LEFT JOIN (
+    SELECT
+        MIN(harmonizde_value_as_number) AS min_value
+        MAX(harmonized_value_as_number) AS max_value,
+        MEAN(harmonizde_value_as_number) AS mean_value,
+        MEDIAN(harmonizde_value_as_number) AS median_value,
+        Alias as alias
+    FROM Filterwithcodesetaliastable
+    group by Alias) sv
+on o.alias = sv.alias
+
 ORDER BY o.alias
 
 @transform_pandas(
