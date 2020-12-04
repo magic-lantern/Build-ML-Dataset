@@ -184,6 +184,7 @@ ORDER BY p.visit_occurrence_id
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9"),
     Ptwithscores_drop_before_table_1=Input(rid="ri.foundry.main.dataset.d345497b-ebed-4055-90aa-48b38b346396"),
+    pt_table_drop_unaffected=Input(rid="ri.foundry.main.dataset.52e25a99-5ccd-40d2-a91b-56122e3174ce"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
 )
 SELECT
@@ -206,6 +207,7 @@ SELECT
     Q_Score,
     Testcount,
     DATE_ADD(visit_start_date, length_of_stay) AS visit_end_date,
+    -- most boolean columns only have true and null; filling nulls with false
     CASE
         WHEN positive_covid_test IS NOT NULL THEN TRUE
         ELSE FALSE
@@ -238,17 +240,17 @@ SELECT
         WHEN ECMO IS NOT NULL OR Invasive_Ventilation IS NOT NULL OR in_death_table = TRUE THEN TRUE
         ELSE FALSE
     END AS bad_outcome
---FROM Pt_table_w_derived_scores -- this table doesn't have all the filters that Ptwithscores_drop_before_table_1 has
-FROM Ptwithscores_drop_before_table_1
+FROM pt_table_drop_unaffected
 WHERE 1 = 1
 AND visit_concept_name LIKE 'Inpatient%'
 AND visit_occurrence_id NOT IN (
     SELECT DISTINCT visit_occurrence_id
     FROM visit_problems
 )
-AND data_partner_id != 411
-AND data_partner_id != 224
-AND data_partner_id != 787
+-- don't need these as switched to pt_table_drop_unaffected
+-- AND data_partner_id != 411
+-- AND data_partner_id != 224
+-- AND data_partner_id != 787
 -- what about under 18?
 -- perhaps should just switch to Ptwithscores_drop_before_table_2
 
