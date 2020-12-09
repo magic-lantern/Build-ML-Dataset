@@ -200,5 +200,5 @@ def worst_lab_pd(test_lab_filter):
             else:
                 kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
 
-    return spark.createDataFrame(pd.DataFrame(np.concatenate(kept_rows).flat))
+    #return spark.createDataFrame(pd.DataFrame(np.concatenate(kept_rows).flat))
 
