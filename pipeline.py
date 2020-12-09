@@ -145,10 +145,9 @@ def inpatient_worst_labs_full( inpatient_labs):
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
-    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
-def worst_lab_pd(test_lab_filter, inpatient_labs):
+def worst_lab_pd(test_lab_filter):
     df = test_lab_filter
     # df = inpatient_labs
 
@@ -201,5 +200,5 @@ def worst_lab_pd(test_lab_filter, inpatient_labs):
             else:
                 kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
 
-    return pd.DataFrame(np.concatenate(kept_rows).flat)
+    return spark.createDataFrame(pd.DataFrame(np.concatenate(kept_rows).flat))
 
