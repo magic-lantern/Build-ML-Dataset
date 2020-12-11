@@ -301,6 +301,15 @@ FROM pt_table_drop_unaffected
 WHERE age_at_visit_start_in_years_int IS NULL
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.88ac97c3-c364-42cb-8418-b9fe139e7fd3"),
+    pt_table_drop_unaffected=Input(rid="ri.foundry.main.dataset.52e25a99-5ccd-40d2-a91b-56122e3174ce")
+)
+select count(1) as num_rec, year(visit_end_date) as s_year, month(visit_end_date) as s_month
+from pt_table_drop_unaffected
+group by s_year, s_month
+order by s_year, s_month
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.8c85cddc-c8b5-4d4a-ae6f-e8efac4e5b8d"),
     Ptwithscores_drop_before_table_1=Input(rid="ri.foundry.main.dataset.d345497b-ebed-4055-90aa-48b38b346396")
 )
@@ -412,13 +421,6 @@ OR visit_occurrence_id = 1000115681187938502
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.8c98570f-1bf2-43e6-817c-0e2935daf297"),
-    pt_table_drop_unaffected=Input(rid="ri.foundry.main.dataset.52e25a99-5ccd-40d2-a91b-56122e3174ce")
-)
-SELECT *
-FROM pt_table_drop_unaffected
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
