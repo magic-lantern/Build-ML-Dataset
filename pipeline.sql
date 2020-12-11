@@ -259,6 +259,7 @@ AND visit_occurrence_id NOT IN (
     SELECT DISTINCT visit_occurrence_id
     FROM visit_problems
 )
+AND YEAR(visit_end_date) >= 2020
 -- don't need these as switched to pt_table_drop_unaffected
 -- AND data_partner_id != 411
 -- AND data_partner_id != 224
