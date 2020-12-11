@@ -304,8 +304,11 @@ WHERE age_at_visit_start_in_years_int IS NULL
     Output(rid="ri.foundry.main.dataset.88ac97c3-c364-42cb-8418-b9fe139e7fd3"),
     pt_table_drop_unaffected=Input(rid="ri.foundry.main.dataset.52e25a99-5ccd-40d2-a91b-56122e3174ce")
 )
-select count(1) AS num_rec, YEAR(visit_end_date) AS s_year, MONTH(visit_end_date) AS s_month
-from pt_table_drop_unaffected
+select count(1) AS num_rec, s_year, s_month
+from (
+    SELECT YEAR(visit_end_date) AS s_year, MONTH(visit_end_date) AS s_month
+    FROM pt_table_drop_unaffected
+)
 group by s_year, s_month
 order by s_year, s_month
 
