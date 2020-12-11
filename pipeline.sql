@@ -306,7 +306,7 @@ WHERE age_at_visit_start_in_years_int IS NULL
 )
 select count(1) AS num_rec, s_year, s_month
 from (
-    SELECT YEAR(visit_end_date) AS s_year, MONTH(visit_end_date) AS s_month
+    SELECT YEAR(DATE_ADD(visit_start_date, length_of_stay)) AS s_year, MONTH(DATE_ADD(visit_start_date, length_of_stay)) AS s_month
     FROM pt_table_drop_unaffected
 )
 group by s_year, s_month
