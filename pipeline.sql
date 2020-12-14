@@ -427,6 +427,13 @@ FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.8fa3a6f4-a66c-471c-9db7-1c91d539ef7f"),
+    Collapse_smoking_by_person=Input(rid="ri.foundry.main.dataset.af27976f-9520-45b1-a0c1-8ea888ba23ef")
+)
+SELECT *
+FROM Collapse_smoking_by_person
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
