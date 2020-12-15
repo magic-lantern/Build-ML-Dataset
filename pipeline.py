@@ -95,7 +95,7 @@ def inpatient_worst_labs_full( inpatient_labs):
         'ALT (SGPT), IU/L': 'high',
         'AST (SGOT), IU/L': 'high',
         'Bilirubin (Conjugated/Direct), mg/dL': 'high',
-        'Bilirubin (total), mg/dL': 'high'
+        'Bilirubin (total), mg/dL': 'high',
         #'Blood type (ABO + Rh)': 'categorical', - only 39 total records in lab table - use inpatient table instead
         'BMI': 'high',
         'BNP, pg/mL': 'high',
