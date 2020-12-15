@@ -2,9 +2,10 @@
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.94159c67-1ed6-4df1-881d-56d6d4b8451b"),
+    inpatient_labs=Input(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
 )
-select distinct alias from inpatient_worst_labs_full
+select distinct alias from inpatient_labs
 order by alias
 
 @transform_pandas(
