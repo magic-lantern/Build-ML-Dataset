@@ -1,6 +1,13 @@
 
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.94159c67-1ed6-4df1-881d-56d6d4b8451b"),
+    inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
+)
+select distinct alias from inpatient_worst_labs_full
+order by alias
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.c1c686ec-6a67-4278-8695-3dc25b69821e"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
@@ -435,13 +442,6 @@ SELECT *
 FROM Collapse_smoking_by_person s
 INNER JOIN inpatient_ml_dataset i
 ON s.person_id = i.person_id
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.b8c493a0-d1fd-430e-b5c3-1e0c13b957e0"),
-    inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
-)
-SELECT *
-FROM inpatient_worst_labs_full
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
