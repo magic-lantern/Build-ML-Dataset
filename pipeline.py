@@ -90,8 +90,12 @@ def inpatient_worst_labs_full( inpatient_labs):
     # likely will want to adjust this window
     df = df.filter((df.measurement_day_of_visit <= 1) & (df.harmonized_value_as_number.isNotNull()))
 
-    labs = {'ALT (SGPT), IU/L': 'high',
+    labs = {
+        'Albumin (g/dL)': 'high',
+        'ALT (SGPT), IU/L': 'high',
         'AST (SGOT), IU/L': 'high',
+        'Bilirubin (Conjugated/Direct), mg/dL': 'high',
+        'Bilirubin (total), mg/dL': 'high'
         #'Blood type (ABO + Rh)': 'categorical', - only 39 total records in lab table - use inpatient table instead
         'BMI': 'high',
         'BNP, pg/mL': 'high',
@@ -109,7 +113,7 @@ def inpatient_worst_labs_full( inpatient_labs):
         'Heart rate': 'high',
         'Hemoglobin A1c, %': 'high',
         'Hemoglobin, g/dL': 'low',
-        'Lactate, mg/dL': 'high',
+        'Lactate, mM': 'high',
         'Lymphocytes (absolute),  x10E3/uL': 'high',
         'Neutrophils (absolute),  x10E3/uL': 'high',
         'NT pro BNP, pg/mL': 'high',
