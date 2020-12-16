@@ -63,6 +63,35 @@ def inpatient_encoded(inpatient_ml_dataset):
     
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.02362acb-3a3b-4fd6-ad35-677c93bd57da"),
+    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
+)
+def inpatient_encoded_w_imputation(inpatient_encoded):
+    df = inpatient_encoded
+    # remove data_partner_id as it was kept for viewing missing data by site. Not part of the rest of this analysis pipeline
+    df = df.drop(columns='data_partner_id')
+
+    df['bnp_pg_ml'] = df['bnp_pg_ml'].fillna(100)
+    df['c-reactive_protein_crp_mg_l'] = df['c-reactive_protein_crp_mg_l'].fillna(10)
+    df['erythrocyte_sed_rate_mm_hr'] = df['erythrocyte_sed_rate_mm_hr'].fillna(19)
+    df['lactate_mm'] = df['lactate_mm'].fillna(13.5)
+    df['nt_pro_bnp_pg_ml'] = df['nt_pro_bnp_pg_ml'].fillna(125)
+    df['procalcitonin_ng_ml'] = df['procalcitonin_ng_ml'].fillna(0.02)
+    df['troponin_all_types_ng_ml'] = df['troponin_all_types_ng_ml'].fillna(0.02)
+
+    df.loc[(df.gender_male == True) & (df.ferritin_ng_ml.isna()), 'ferritin_ng_ml'] = 150
+    df.loc[(df.gender_male == False) & (df.gender_other == False) & (df.ferritin_ng_ml.isna()), 'ferritin_ng_ml'] = 75
+    
+    # fill these with False - now dropped due to already dropping other insurance info
+    # df['medicare'] = df['medicare'].fillna(False)
+    # df['payer_no_matching_concept'] = df['payer_no_matching_concept'].fillna(False)
+
+    # now fill the rest with the median
+    df = df.fillna(df.median())
+
+    return df
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1"),
     inpatient_charlson=Input(rid="ri.foundry.main.dataset.1da536da-5594-4df1-98cf-d364d2773b3e"),
     inpatient_payer=Input(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
@@ -203,10 +232,10 @@ def inpatient_worst_labs_full( inpatient_labs):
     return kept_rows
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.2627df06-b7d3-4e7b-a1a0-bf63b30d8de5"),
-    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
+    Output(rid="ri.vector.main.execute.14b65e02-15a6-4a27-9d01-861bc071d772"),
+    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
-def unnamed_1(inpatient_encoded):
+def unnamed_1(inpatient_ml_dataset):
     
 
 @transform_pandas(
