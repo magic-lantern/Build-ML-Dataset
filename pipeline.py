@@ -304,6 +304,20 @@ def missing_data_info(inpatient_encoded):
     return missing_df
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.59196ca8-6a20-4767-be0c-466bac5e44d8"),
+    inpatient_encoded_all_cols=Input(rid="ri.foundry.main.dataset.7d21dd2e-f5a4-49eb-9c64-8ff5dc24eae4")
+)
+def missing_data_info_all_cols(inpatient_encoded_all_cols):
+    df = inpatient_encoded_all_cols
+    missing_df = df.isnull().sum().to_frame()
+    missing_df = missing_df.rename(columns = {0:'null_count'})
+    missing_df['pct_missing'] = missing_df['null_count'] / df.shape[0]
+    missing_df = missing_df.reset_index()
+    missing_df = missing_df.rename(columns = {'index':'variable'})
+    missing_df = missing_df.sort_values('pct_missing', ascending=False)
+    return missing_df
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.75db6e21-1621-4a49-a3be-0eebb4992ff0"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
@@ -343,7 +357,7 @@ def outcomes(inpatient_ml_dataset):
     return df.toPandas()
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.adbf2a5a-db90-4539-b043-b89450da0616"),
+    Output(rid="ri.vector.main.execute.8dd1a5c2-f842-4d43-9fb3-e8ed56b3d35f"),
     inpatient_encoded_all_cols=Input(rid="ri.foundry.main.dataset.7d21dd2e-f5a4-49eb-9c64-8ff5dc24eae4")
 )
 def unnamed_1(inpatient_encoded_all_cols):
