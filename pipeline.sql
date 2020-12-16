@@ -335,6 +335,16 @@ FROM Ptwithscores_drop_before_table_1
 GROUP BY visit_concept_name
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.d5287a21-4a0f-423b-928f-5aad94234d08"),
+    Collapse_smoking_by_person=Input(rid="ri.foundry.main.dataset.af27976f-9520-45b1-a0c1-8ea888ba23ef"),
+    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
+)
+SELECT *
+FROM Collapse_smoking_by_person s
+INNER JOIN inpatient_ml_dataset i
+ON s.person_id = i.person_id
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.fa76c1c4-f05e-4583-a854-95617b81fd44"),
     Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
@@ -435,14 +445,11 @@ FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.8fa3a6f4-a66c-471c-9db7-1c91d539ef7f"),
-    Collapse_smoking_by_person=Input(rid="ri.foundry.main.dataset.af27976f-9520-45b1-a0c1-8ea888ba23ef"),
+    Output(rid="ri.vector.main.execute.56685c7a-ed79-4ab2-8b5b-03b7d89cce9d"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
 SELECT *
-FROM Collapse_smoking_by_person s
-INNER JOIN inpatient_ml_dataset i
-ON s.person_id = i.person_id
+FROM inpatient_ml_dataset
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
