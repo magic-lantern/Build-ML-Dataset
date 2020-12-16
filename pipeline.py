@@ -17,6 +17,15 @@ def data_by_site( inpatient_encoded):
     return sites_with_values.reset_index()
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.4fb71073-2f35-4aa5-bf6f-b293ff9a5da9"),
+    inpatient_encoded_all_cols=Input(rid="ri.foundry.main.dataset.7d21dd2e-f5a4-49eb-9c64-8ff5dc24eae4")
+)
+def data_by_site_all_cols( inpatient_encoded_all_cols):
+    df = inpatient_encoded_all_cols
+    sites_with_values = df.groupby('data_partner_id').count()
+    return sites_with_values.reset_index()
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
@@ -355,13 +364,6 @@ def outcomes(inpatient_ml_dataset):
                    'testcount',
                    'bad_outcome')
     return df.toPandas()
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.8dd1a5c2-f842-4d43-9fb3-e8ed56b3d35f"),
-    inpatient_encoded_all_cols=Input(rid="ri.foundry.main.dataset.7d21dd2e-f5a4-49eb-9c64-8ff5dc24eae4")
-)
-def unnamed_1(inpatient_encoded_all_cols):
-    
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
