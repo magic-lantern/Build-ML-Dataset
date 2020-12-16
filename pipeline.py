@@ -108,7 +108,7 @@ def inpatient_worst_labs_full( inpatient_labs):
         'Diastolic blood pressure': 'low',
         'Erythrocyte Sed. Rate, mm/hr': 'high',
         'Ferritin, ng/mL': 'high',
-        'Glasgow coma scale (GCS) Total': 'low',
+        'Glasgow coma scale (GCS) Total': 'low', # currently (Dec 15, 2020) has no harmonized values
         'Glucose, mg/dL': 'high',
         'Heart rate': 'high',
         'Hemoglobin A1c, %': 'high',
