@@ -149,7 +149,7 @@ SELECT
         ELSE FALSE
         END AS Stroke
 FROM Pivot_on_charlson c
-INNER JOIN inpatients v
+LEFT JOIN inpatients v
     ON c.person_id = v.person_id
 
 @transform_pandas(
