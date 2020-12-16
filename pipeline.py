@@ -8,6 +8,15 @@ from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.8e7b822f-fcd9-4807-8ddc-c20145ea6c03"),
+    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
+)
+def data_by_site( inpatient_encoded):
+    df = inpatient_encoded
+    sites_with_values = df.groupby('data_partner_id').count()
+    return sites_with_values.reset_index()
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
@@ -290,7 +299,7 @@ def outcomes(inpatient_ml_dataset):
     return df.toPandas()
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.2a1a89f9-a0ad-476e-87da-97b9b7bfcb61"),
+    Output(rid="ri.vector.main.execute.40f2db51-930c-4a85-a91f-000e17d573e8"),
     inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
 )
 def unnamed_1(inpatient_encoded):
