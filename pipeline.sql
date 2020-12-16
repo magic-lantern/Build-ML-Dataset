@@ -170,6 +170,15 @@ LEFT JOIN inpatients v
     ON c.person_id = v.person_id
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.43c5cbbb-374e-4e51-b1ea-a6246ef00e3a"),
+    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
+)
+select count(1) as num_rec, year(visit_end_date) as s_year, month(visit_end_date) as s_month
+from inpatient_ml_dataset
+group by s_year, s_month
+order by s_year, s_month
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.9cf45dff-b77e-4e52-bd3d-2209004983a2"),
     Filterwithcodesetaliastable=Input(rid="ri.foundry.main.dataset.ff7e826a-1dbc-480e-86dc-d75aa802f9d8"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
@@ -460,13 +469,6 @@ OR visit_occurrence_id = 1000115681187938502
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.ca30554c-fbec-4bae-915c-9fb231b6867c"),
-    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
-)
-SELECT *
-FROM inpatient_ml_dataset
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),

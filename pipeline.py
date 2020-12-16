@@ -290,6 +290,13 @@ def outcomes(inpatient_ml_dataset):
     return df.toPandas()
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.2a1a89f9-a0ad-476e-87da-97b9b7bfcb61"),
+    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
+)
+def unnamed_1(inpatient_encoded):
+    
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
