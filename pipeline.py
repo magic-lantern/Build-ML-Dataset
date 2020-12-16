@@ -8,6 +8,61 @@ from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566"),
+    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
+)
+def inpatient_encoded(inpatient_ml_dataset):
+    inpatient_ml_dataset = inpatient_ml_dataset
+    # get rid of ids, columns that are duplicates of other information,
+    # or columns that are from the end of stay
+    sdf = inpatient_ml_dataset
+    sdf = sdf.drop('covid_status_name')
+    sdf = sdf.drop('person_id')
+    sdf = sdf.drop('visit_concept_id')
+    sdf = sdf.drop('visit_concept_name')
+    sdf = sdf.drop('in_death_table')
+    sdf = sdf.drop('severity_type')
+    sdf = sdf.drop('length_of_stay')
+    sdf = sdf.drop('ecmo')
+    sdf = sdf.drop('aki_in_hospital')
+    sdf = sdf.drop('invasive_ventilation')
+    sdf = sdf.drop('testcount')
+    sdf = sdf.drop('bad_outcome')
+    # before this have filtered to patients affected by COVID
+    sdf = sdf.drop('positive_covid_test', 'negative_covid_test', 'suspected_covid')
+
+    # these columns are 85% or greater NULL (insurance information)
+    sdf = sdf.drop('miscellaneous_program', 'department_of_corrections', 'department_of_defense', 'other_government_federal_state_local_excluding_department_of_corrections', 'no_payment_from_an_organization_agency_program_private_payer_listed', 'medicaid', 'private_health_insurance', 'medicare', 'payer_no_matching_concept')
+    
+    df = sdf.toPandas()
+
+    # actually decided that these columns are 'cheating'
+    # fixing columns so they work with sklearn
+    # df['visit_start'] = pd.to_datetime(df.visit_start_date).astype('int64')
+    # df['visit_end'] = pd.to_datetime(df.visit_end_date).astype('int64')
+    df = df.drop(columns=['visit_start_date', 'visit_end_date'])
+    
+    # remove site so analysis is more generalized across all COVID positive
+    # df = pd.concat([df, pd.get_dummies(df.data_partner_id, prefix='site', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('gender_concept_name', axis=1), pd.get_dummies(df.gender_concept_name, prefix='gender', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('race', axis=1), pd.get_dummies(df.race, prefix='race', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('ethnicity', axis=1), pd.get_dummies(df.ethnicity, prefix='ethnicity', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('smoking_status', axis=1), pd.get_dummies(df.smoking_status, prefix='smoking', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('blood_type', axis=1), pd.get_dummies(df.blood_type, prefix='blood_type', drop_first=True)], axis=1)
+    #df = pd.concat([df.drop('severity_type', axis=1), pd.get_dummies(df.severity_type, prefix='severity', drop_first=True)], axis=1)
+
+    # these boolean coluumns aren't being treated as boolean
+    charlson_cols = ['chf', 'cancer', 'dm', 'dmcx', 'dementia', 'hiv', 'livermild', 'liversevere', 'mi', 'mets', 'pud', 'pvd', 'paralysis', 'pulmonary', 'renal', 'rheumatic', 'stroke']
+    df[charlson_cols] = df[charlson_cols].astype('bool')
+
+    df.columns = df.columns.str.replace(' ', '_')
+    df.columns = df.columns.str.replace('/', '_')
+    df.columns = df.columns.str.lower()
+    
+    return df
+    
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1"),
     inpatient_charlson=Input(rid="ri.foundry.main.dataset.1da536da-5594-4df1-98cf-d364d2773b3e"),
     inpatient_payer=Input(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
@@ -148,10 +203,10 @@ def inpatient_worst_labs_full( inpatient_labs):
     return kept_rows
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.f41b0c05-cea1-40a6-a114-efd1bf9fbfc5"),
-    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
+    Output(rid="ri.vector.main.execute.2627df06-b7d3-4e7b-a1a0-bf63b30d8de5"),
+    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
 )
-def unnamed_1(inpatient_ml_dataset):
+def unnamed_1(inpatient_encoded):
     
 
 @transform_pandas(
