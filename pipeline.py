@@ -152,6 +152,25 @@ def inpatient_payer( map2_visit_occurrence_payer_plan, inpatients):
     return pivot_df
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.bc823c17-fcdc-4801-a389-c6f476ed6971"),
+    inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.02362acb-3a3b-4fd6-ad35-677c93bd57da")
+)
+def inpatient_scaled_w_imputation( inpatient_encoded_w_imputation):
+    df = inpatient_encoded_w_imputation
+    
+    # this column should not be centered/scaled
+    visit_occurrence_id = df['visit_occurrence_id']
+    df = df.drop(columns='visit_occurrence_id')
+
+    scaler = StandardScaler()
+    scaler.fit(df)
+
+    ret_df = pd.DataFrame(scaler.transform(df), columns=df.columns)
+    ret_df['visit_occurrence_id'] = visit_occurrence_id
+    return ret_df
+    
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.c1c6e3b9-83ff-421a-b5c6-75518beec801"),
     inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
 )
@@ -232,18 +251,27 @@ def inpatient_worst_labs_full( inpatient_labs):
     return kept_rows
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.14b65e02-15a6-4a27-9d01-861bc071d772"),
+    Output(rid="ri.foundry.main.dataset.349f1404-e60e-4a76-9a32-13fe06198cc1"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
-def unnamed_1(inpatient_ml_dataset):
-    
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.93a41d32-80c9-4c81-8abc-e856841a9409"),
-    inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.02362acb-3a3b-4fd6-ad35-677c93bd57da")
-)
-def unnamed_2(inpatient_encoded_w_imputation):
-    
+def outcomes(inpatient_ml_dataset):
+    df = inpatient_ml_dataset
+    df = df.select('visit_occurrence_id',
+                   'person_id',
+                   'data_partner_id',
+                   'visit_concept_name',
+                   'covid_status_name',
+                   'in_death_table',
+                   'severity_type',
+                   'length_of_stay',
+                   'visit_start_date',
+                   'visit_end_date',
+                   'ecmo',
+                   'aki_in_hospital',
+                   'invasive_ventilation',
+                   'testcount',
+                   'bad_outcome')
+    return df.toPandas()
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
