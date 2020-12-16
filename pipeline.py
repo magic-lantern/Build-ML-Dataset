@@ -239,6 +239,13 @@ def unnamed_1(inpatient_ml_dataset):
     
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.93a41d32-80c9-4c81-8abc-e856841a9409"),
+    inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.02362acb-3a3b-4fd6-ad35-677c93bd57da")
+)
+def unnamed_2(inpatient_encoded_w_imputation):
+    
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
