@@ -72,6 +72,35 @@ def inpatient_encoded(inpatient_ml_dataset):
     
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.7d21dd2e-f5a4-49eb-9c64-8ff5dc24eae4"),
+    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
+)
+def inpatient_encoded_all_cols(inpatient_ml_dataset):
+    sdf = inpatient_ml_dataset
+    df = sdf.toPandas()
+
+    # fixing columns so they work with sklearn
+    df['visit_start'] = pd.to_datetime(df.visit_start_date).astype('int64')
+    df['visit_end'] = pd.to_datetime(df.visit_end_date).astype('int64')
+    df = df.drop(columns=['visit_start_date', 'visit_end_date'])
+    
+    #dummy code these
+    df = pd.concat([df.drop('covid_status_name', axis=1), pd.get_dummies(df.covid_status_name, prefix='cov_status', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('gender_concept_name', axis=1), pd.get_dummies(df.gender_concept_name, prefix='gender', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('race', axis=1), pd.get_dummies(df.race, prefix='race', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('ethnicity', axis=1), pd.get_dummies(df.ethnicity, prefix='ethnicity', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('smoking_status', axis=1), pd.get_dummies(df.smoking_status, prefix='smoking', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('blood_type', axis=1), pd.get_dummies(df.blood_type, prefix='blood_type', drop_first=True)], axis=1)
+    df = pd.concat([df.drop('severity_type', axis=1), pd.get_dummies(df.severity_type, prefix='severity', drop_first=True)], axis=1)
+
+    df.columns = df.columns.str.replace(' ', '_')
+    df.columns = df.columns.str.replace('/', '_')
+    df.columns = df.columns.str.lower()
+    
+    return df
+    
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.02362acb-3a3b-4fd6-ad35-677c93bd57da"),
     inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
 )
@@ -312,13 +341,6 @@ def outcomes(inpatient_ml_dataset):
                    'testcount',
                    'bad_outcome')
     return df.toPandas()
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.39c3bb7e-8dc9-44a8-9e14-d3eec630fdbd"),
-    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
-)
-def unnamed_1(inpatient_ml_dataset):
-    
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
