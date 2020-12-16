@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number
+from sklearn.preprocessing import StandardScaler
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8e7b822f-fcd9-4807-8ddc-c20145ea6c03"),
