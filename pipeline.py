@@ -260,6 +260,21 @@ def inpatient_worst_labs_full( inpatient_labs):
     return kept_rows
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.dc2883cb-cece-46a4-b4ce-c7cac6de202f"),
+    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
+)
+def missing_data_info(inpatient_encoded):
+    df = inpatient_encoded
+    missing_df = df.isnull().sum().to_frame()
+    missing_df = missing_df.rename(columns = {0:'null_count'})
+    missing_df['pct_missing'] = missing_df['null_count'] / df.shape[0]
+    missing_df['pct_present'] = round((1 - missing_df['null_count'] / df.shape[0]) * 100, 1)
+    missing_df = missing_df.reset_index()
+    missing_df = missing_df.rename(columns = {'index':'variable'})
+    missing_df = missing_df.sort_values('pct_missing', ascending=False)
+    return missing_df
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.75db6e21-1621-4a49-a3be-0eebb4992ff0"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
@@ -297,13 +312,6 @@ def outcomes(inpatient_ml_dataset):
                    'testcount',
                    'bad_outcome')
     return df.toPandas()
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.40f2db51-930c-4a85-a91f-000e17d573e8"),
-    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
-)
-def unnamed_1(inpatient_encoded):
-    
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
