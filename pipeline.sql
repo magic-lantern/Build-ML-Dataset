@@ -7,7 +7,7 @@
 )
 SELECT i.bad_outcome, l.*
 FROM inpatient_labs l
-LEFT JOIN inpatients i
+INNER JOIN inpatients i
     ON i.visit_occurrence_id = l.visit_occurrence_id
 where alias = 'SpO2'
 
@@ -225,7 +225,7 @@ SELECT DISTINCT
     Alias as alias
 FROM Filterwithcodesetaliastable l
 -- LEFT JOIN inpatient_bestVisitPossible v
-LEFT JOIN inpatients v
+INNER JOIN inpatients v
     ON l.visit_occurrence_id = v.visit_occurrence_id
 
 @transform_pandas(
