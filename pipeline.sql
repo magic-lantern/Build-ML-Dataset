@@ -394,7 +394,7 @@ SELECT
         WHEN Stroke IS NOT NULL THEN TRUE
         ELSE FALSE
         END AS Stroke
-FROM Pivot_on_charlson c
+FROM Charlson_for_all_covidpos c
 INNER JOIN inpatients v
     ON c.person_id = v.person_id
 
