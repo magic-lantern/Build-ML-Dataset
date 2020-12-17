@@ -550,6 +550,13 @@ INNER JOIN inpatients v
     ON c.person_id = v.person_id
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.0d9fc45d-d409-4c64-bdff-59dbca0db5ee"),
+    inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
+)
+SELECT *
+FROM inpatient_worst_labs_full
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
