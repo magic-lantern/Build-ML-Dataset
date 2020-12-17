@@ -471,6 +471,13 @@ FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.d69442ff-fd12-4318-b013-8359276d273c"),
+    Charlson_for_all_covidpos=Input(rid="ri.foundry.main.dataset.51933503-15d5-4ee5-a543-964c351971b4")
+)
+SELECT *
+FROM Charlson_for_all_covidpos
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
