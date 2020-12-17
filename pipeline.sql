@@ -224,7 +224,6 @@ SELECT DISTINCT
     measurement_day_of_visit,
     Alias as alias
 FROM Filterwithcodesetaliastable l
--- LEFT JOIN inpatient_bestVisitPossible v
 INNER JOIN inpatients v
     ON l.visit_occurrence_id = v.visit_occurrence_id
 
