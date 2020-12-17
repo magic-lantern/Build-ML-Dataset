@@ -462,7 +462,7 @@ where alias = 'SpO2'
     Output(rid="ri.foundry.main.dataset.fa058dc9-5a86-4ac2-9b9f-68d9ae9957c4"),
     spo2_check=Input(rid="ri.foundry.main.dataset.41ad82d9-7dbd-4401-88cc-64571e1e09b8")
 )
-SELECT visit_occurrence_id, min(harmonized_value_as_number) AS min_spo2, max(harmonized_value_as_number) AS max_spo2, mean(harmonized_value_as_number) AS mean_spo2
+SELECT visit_occurrence_id, count(1) as num_obs, min(harmonized_value_as_number) AS min_spo2, max(harmonized_value_as_number) AS max_spo2, mean(harmonized_value_as_number) AS mean_spo2
 FROM spo2_check
 GROUP BY visit_occurrence_id
 
