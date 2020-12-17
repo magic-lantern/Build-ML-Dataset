@@ -559,6 +559,13 @@ FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.67e51e48-9ea7-46ab-bf24-2636655522f5"),
+    spo2_check=Input(rid="ri.foundry.main.dataset.41ad82d9-7dbd-4401-88cc-64571e1e09b8")
+)
+SELECT *
+FROM spo2_check
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
