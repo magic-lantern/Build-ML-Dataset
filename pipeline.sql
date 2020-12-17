@@ -365,7 +365,7 @@ GROUP BY visit_concept_name
     Collapse_smoking_by_person=Input(rid="ri.foundry.main.dataset.af27976f-9520-45b1-a0c1-8ea888ba23ef"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
-SELECT *
+SELECT i.*
 FROM Collapse_smoking_by_person s
 INNER JOIN inpatient_ml_dataset i
 ON s.person_id = i.person_id
