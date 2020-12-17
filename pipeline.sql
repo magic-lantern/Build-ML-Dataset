@@ -17,6 +17,7 @@ where alias = 'SpO2'
 )
 SELECT visit_occurrence_id, count(1) as num_obs, min(harmonized_value_as_number) AS min_spo2, max(harmonized_value_as_number) AS max_spo2, mean(harmonized_value_as_number) AS mean_spo2
 FROM all_spo2
+WHERE measurement_day_of_visit <= 1
 GROUP BY visit_occurrence_id
 
 @transform_pandas(
