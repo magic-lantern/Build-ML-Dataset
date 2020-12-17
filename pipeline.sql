@@ -7,14 +7,13 @@
 )
 SELECT i.bad_outcome, l.*
 FROM inpatient_labs l
-where alias = 'SpO2'
 LEFT JOIN inpatients i
-ON i.visit_occurrence_id = l.visit_occurrence_id
+    ON i.visit_occurrence_id = l.visit_occurrence_id
+where alias = 'SpO2'
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.253d1c17-0869-4d64-bbe9-cdab7c0145f1"),
-    all_spo2=Input(rid="ri.foundry.main.dataset.0a5b82ab-f317-4bf0-824a-87bebf4a4b3b"),
-    inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
+    all_spo2=Input(rid="ri.foundry.main.dataset.0a5b82ab-f317-4bf0-824a-87bebf4a4b3b")
 )
 SELECT visit_occurrence_id, count(1) as num_obs, min(harmonized_value_as_number) AS min_spo2, max(harmonized_value_as_number) AS max_spo2, mean(harmonized_value_as_number) AS mean_spo2
 FROM all_spo2
