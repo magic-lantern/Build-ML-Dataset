@@ -371,6 +371,14 @@ INNER JOIN inpatient_ml_dataset i
 ON s.person_id = i.person_id
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.41ad82d9-7dbd-4401-88cc-64571e1e09b8"),
+    inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
+)
+SELECT *
+FROM inpatient_worst_labs_full
+where alias = 'SpO2'
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.fa76c1c4-f05e-4583-a854-95617b81fd44"),
     Pt_table_w_derived_scores=Input(rid="ri.foundry.main.dataset.6c557303-95ef-4ba2-841a-dea8e553e127"),
     visit_problems=Input(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791")
@@ -548,13 +556,6 @@ SELECT
 FROM Charlson_for_all_covidpos c
 INNER JOIN inpatients v
     ON c.person_id = v.person_id
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.0d9fc45d-d409-4c64-bdff-59dbca0db5ee"),
-    inpatient_worst_labs_full=Input(rid="ri.foundry.main.dataset.3548767f-6fe1-4ef8-b7c8-1851a0c67aa5")
-)
-SELECT *
-FROM inpatient_worst_labs_full
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
