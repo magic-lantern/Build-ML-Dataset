@@ -325,6 +325,7 @@ AND visit_occurrence_id NOT IN (
     FROM visit_problems
 )
 AND YEAR(DATE_ADD(visit_start_date, length_of_stay)) >= 2020
+AND length_of_stay > 1
 -- don't need these as switched to pt_table_drop_unaffected
 -- AND data_partner_id != 411
 -- AND data_partner_id != 224
