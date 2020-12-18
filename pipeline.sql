@@ -122,6 +122,86 @@ AND (visit_start_date <= visit_end_date
     OR visit_end_date IS NULL)
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.ddd8560b-e059-42dc-89ed-1ad850bfcc82"),
+    Charlson_for_all_covidpos=Input(rid="ri.foundry.main.dataset.51933503-15d5-4ee5-a543-964c351971b4"),
+    inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
+)
+SELECT
+    c.person_id,
+    -- filling in all null values with false
+    CASE
+        WHEN CHF IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS CHF,
+    CASE
+        WHEN Cancer IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS Cancer,
+    CASE
+        WHEN DM IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS DM,
+    CASE
+        WHEN DMcx IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS DMcx,
+    CASE
+        WHEN Dementia IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS Dementia,
+    CASE
+        WHEN HIV IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS HIV,
+    CASE
+        WHEN LiverMild IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS LiverMild,
+    CASE
+        WHEN LiverSevere IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS LiverSevere,
+    CASE
+        WHEN MI IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS MI,
+    CASE
+        WHEN Mets IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS Mets,
+    CASE
+        WHEN PUD IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS PUD,
+    CASE
+        WHEN PVD IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS PVD,
+    CASE
+        WHEN Paralysis IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS Paralysis,
+    CASE
+        WHEN Pulmonary IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS Pulmonary,
+    CASE
+        WHEN Renal IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS Renal,
+    CASE
+        WHEN Rheumatic IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS Rheumatic,
+    CASE
+        WHEN Stroke IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS Stroke
+FROM Charlson_for_all_covidpos c
+INNER JOIN inpatients v
+    ON c.person_id = v.person_id
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.43c5cbbb-374e-4e51-b1ea-a6246ef00e3a"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
@@ -251,86 +331,6 @@ AND YEAR(DATE_ADD(visit_start_date, length_of_stay)) >= 2020
 -- AND data_partner_id != 787
 -- what about under 18?
 -- perhaps should just switch to Ptwithscores_drop_before_table_2
-
-@transform_pandas(
-    Output(rid="ri.foundry.main.dataset.ddd8560b-e059-42dc-89ed-1ad850bfcc82"),
-    Charlson_for_all_covidpos=Input(rid="ri.foundry.main.dataset.51933503-15d5-4ee5-a543-964c351971b4"),
-    inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
-)
-SELECT
-    c.person_id,
-    -- filling in all null values with false
-    CASE
-        WHEN CHF IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS CHF,
-    CASE
-        WHEN Cancer IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS Cancer,
-    CASE
-        WHEN DM IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS DM,
-    CASE
-        WHEN DMcx IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS DMcx,
-    CASE
-        WHEN Dementia IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS Dementia,
-    CASE
-        WHEN HIV IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS HIV,
-    CASE
-        WHEN LiverMild IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS LiverMild,
-    CASE
-        WHEN LiverSevere IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS LiverSevere,
-    CASE
-        WHEN MI IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS MI,
-    CASE
-        WHEN Mets IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS Mets,
-    CASE
-        WHEN PUD IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS PUD,
-    CASE
-        WHEN PVD IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS PVD,
-    CASE
-        WHEN Paralysis IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS Paralysis,
-    CASE
-        WHEN Pulmonary IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS Pulmonary,
-    CASE
-        WHEN Renal IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS Renal,
-    CASE
-        WHEN Rheumatic IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS Rheumatic,
-    CASE
-        WHEN Stroke IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS Stroke
-FROM Charlson_for_all_covidpos c
-INNER JOIN inpatients v
-    ON c.person_id = v.person_id
 
 @transform_pandas(
     Output(rid="ri.vector.main.execute.7088f128-6b0d-4f7f-accf-20153d6d1777"),
