@@ -374,11 +374,11 @@ def outcomes(inpatient_ml_dataset):
     all_spo2=Input(rid="ri.foundry.main.dataset.0a5b82ab-f317-4bf0-824a-87bebf4a4b3b")
 )
 def spo2_vs_bad_outcome(all_spo2):
-    df = all_spo2.filter(df.bad_outcome == True).toPandas()
+    df = all_spo2.filter(all_spo2.bad_outcome == True).toPandas()
     sns.histplot(data=df,
                  x="harmonized_value_as_number",
                  hue="bad_outcome",
-                 bins=20)
+                 bins=25)
     plt.show()
 
 @transform_pandas(
