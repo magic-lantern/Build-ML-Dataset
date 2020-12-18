@@ -27,6 +27,20 @@ def data_by_site_all_cols( inpatient_encoded_all_cols):
     return sites_with_values.reset_index()
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.b9c3c4b5-1370-43da-8b3d-30c3f1928c32"),
+    first_day_spo2=Input(rid="ri.foundry.main.dataset.e9f49cdc-7301-4e0d-9872-cf75f013921d")
+)
+def first_day_spo2_vs_outcome(first_day_spo2):
+    #df = first_day_spo2.filter(all_spo2.bad_outcome == True).toPandas()
+    df = first_day_spo2.toPandas()
+    sns.histplot(data=df,
+                 x="harmonized_value_as_number",
+                 hue="bad_outcome",
+                 bins=50,
+                 multiple="dodge")
+    plt.show()
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
@@ -370,20 +384,6 @@ def outcomes(inpatient_ml_dataset):
     return df.toPandas()
 
 @transform_pandas(
-    Output(rid="ri.foundry.main.dataset.dabbe334-5116-4921-a794-e3f22bdadd8d"),
-    all_spo2=Input(rid="ri.foundry.main.dataset.0a5b82ab-f317-4bf0-824a-87bebf4a4b3b")
-)
-def spo2_vs_bad_outcome(all_spo2):
-    #df = all_spo2.filter(all_spo2.bad_outcome == True).toPandas()
-    df = all_spo2.toPandas()
-    sns.histplot(data=df,
-                 x="harmonized_value_as_number",
-                 hue="bad_outcome",
-                 bins=50,
-                 multiple="dodge")
-    plt.show()
-
-@transform_pandas(
     Output(rid="ri.foundry.main.dataset.76b6c65a-ff64-424e-b7cb-53c498d7d2fe"),
     all_spo2=Input(rid="ri.foundry.main.dataset.0a5b82ab-f317-4bf0-824a-87bebf4a4b3b")
 )
@@ -396,11 +396,18 @@ def spo2_vs_good_outcome(all_spo2):
     plt.show()
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.3071706a-d720-4714-bd7d-140fb0655589"),
-    first_day_spo2=Input(rid="ri.foundry.main.dataset.e9f49cdc-7301-4e0d-9872-cf75f013921d")
+    Output(rid="ri.foundry.main.dataset.dabbe334-5116-4921-a794-e3f22bdadd8d"),
+    all_spo2=Input(rid="ri.foundry.main.dataset.0a5b82ab-f317-4bf0-824a-87bebf4a4b3b")
 )
-def unnamed_1(first_day_spo2):
-    
+def spo2_vs_outcome(all_spo2):
+    #df = all_spo2.filter(all_spo2.bad_outcome == True).toPandas()
+    df = all_spo2.toPandas()
+    sns.histplot(data=df,
+                 x="harmonized_value_as_number",
+                 hue="bad_outcome",
+                 bins=50,
+                 multiple="dodge")
+    plt.show()
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
