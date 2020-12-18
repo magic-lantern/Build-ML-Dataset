@@ -410,13 +410,6 @@ def spo2_vs_outcome(all_spo2):
     plt.show()
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.d63e6923-5d81-4175-aad9-f7dd766c4214"),
-    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
-)
-def unnamed_1(inpatient_ml_dataset):
-    
-
-@transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
@@ -474,4 +467,17 @@ def worst_lab_pd(test_lab_filter):
                 kept_rows.append(tdf.groupby('visit_occurrence_id', as_index=False).first().to_dict(orient="records"))
 
     #return spark.createDataFrame(pd.DataFrame(np.concatenate(kept_rows).flat))
+
+@transform_pandas(
+    Output(rid="ri.foundry.main.dataset.9e7caa2b-3453-41a4-a536-542e3ddeac3c"),
+    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
+)
+def worst_spo2_vs_outcome(inpatient_ml_dataset):
+    df = inpatient_ml_dataset.toPandas()
+    sns.histplot(data=df,
+                 x="spo2",
+                 hue="bad_outcome",
+                 bins=50,
+                 multiple="dodge")
+    plt.show()
 
