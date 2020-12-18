@@ -122,7 +122,7 @@ AND (visit_start_date <= visit_end_date
     OR visit_end_date IS NULL)
 
 @transform_pandas(
-    Output(rid="ri.foundry.main.dataset.5a911556-d9e5-47c6-a085-19ff97720222"),
+    Output(rid="ri.vector.main.execute.d69442ff-fd12-4318-b013-8359276d273c"),
     Charlson_for_all_covidpos=Input(rid="ri.foundry.main.dataset.51933503-15d5-4ee5-a543-964c351971b4"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
 )
