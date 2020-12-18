@@ -356,7 +356,7 @@ WHERE -- year(measurement_datetime) = 1900
     Pivot_on_charlson=Input(rid="ri.foundry.main.dataset.4a9afe05-3616-49ca-a9c3-73d462467053"),
     inpatient_charlson2=Input(rid="ri.foundry.main.dataset.ddd8560b-e059-42dc-89ed-1ad850bfcc82")
 )
-SELECT DISTINCT person_id FROM 
+SELECT DISTINCT person_id 
 FROM inpatient_charlson2
 WHERE person_id NOT IN (SELECT DISTINCT person_id FROM Pivot_on_charlson)
 
