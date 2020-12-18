@@ -352,6 +352,14 @@ WHERE -- year(measurement_datetime) = 1900
      measurement_datetime IS NULL
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.87b9ddfd-8754-4165-a290-d048e8fc1983"),
+    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
+)
+SELECT gender_concept_name, count(1) as rec_count
+FROM inpatient_ml_dataset
+group by gender_concept_name
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.c7376f23-515a-4a11-932a-2705f0d09f89"),
     Ptwithscores_drop_before_table_1=Input(rid="ri.foundry.main.dataset.d345497b-ebed-4055-90aa-48b38b346396")
 )
@@ -501,13 +509,6 @@ OR visit_occurrence_id = 1000115681187938502
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.b61c4dc0-ec2d-4e42-9046-67c07eb00b74"),
-    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
-)
-SELECT *
-FROM inpatient_ml_dataset
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
