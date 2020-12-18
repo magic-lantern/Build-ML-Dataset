@@ -352,6 +352,13 @@ WHERE -- year(measurement_datetime) = 1900
      measurement_datetime IS NULL
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.3d4fe549-dc8b-4e60-a33a-3d0241371517"),
+    inpatient_charlson2=Input(rid="ri.foundry.main.dataset.ddd8560b-e059-42dc-89ed-1ad850bfcc82")
+)
+SELECT *
+FROM inpatient_charlson2
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.87b9ddfd-8754-4165-a290-d048e8fc1983"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )

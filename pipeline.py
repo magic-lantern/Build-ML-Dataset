@@ -410,13 +410,6 @@ def spo2_vs_outcome(all_spo2):
     plt.show()
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.83de5545-1896-479a-9052-2eec9d7a9edf"),
-    inpatient_charlson2=Input(rid="ri.foundry.main.dataset.ddd8560b-e059-42dc-89ed-1ad850bfcc82")
-)
-def unnamed_1(inpatient_charlson2):
-    
-
-@transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
