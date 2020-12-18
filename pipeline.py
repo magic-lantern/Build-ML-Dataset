@@ -382,6 +382,18 @@ def spo2_vs_bad_outcome(all_spo2):
     plt.show()
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.8e80f4a2-a327-4719-8b1f-11d01d1cf53a"),
+    all_spo2=Input(rid="ri.foundry.main.dataset.0a5b82ab-f317-4bf0-824a-87bebf4a4b3b")
+)
+def spo2_vs_bad_outcome_1(all_spo2):
+    df = all_spo2.filter(all_spo2.bad_outcome == True).toPandas()
+    sns.histplot(data=df,
+                 x="harmonized_value_as_number",
+                 hue="bad_outcome",
+                 bins=50)
+    plt.show()
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
