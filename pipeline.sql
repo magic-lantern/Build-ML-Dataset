@@ -361,6 +361,22 @@ FROM inpatient_charlson2
 WHERE person_id NOT IN (SELECT DISTINCT person_id FROM Pivot_on_charlson)
 
 @transform_pandas(
+    Output(rid="ri.foundry.main.dataset.67690235-78c7-45b2-b9e7-bc569d5c741e"),
+    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
+)
+SELECT gender_concept_name as field, count(1) as rec_count
+FROM inpatient_ml_dataset
+GROUP BY gender_concept_name
+UNION ALL
+SELECT race as field, count(1) as rec_count
+FROM inpatient_ml_dataset
+GROUP BY race
+UNION ALL
+SELECT ethnicity as field, count(1) as rec_count
+FROM inpatient_ml_dataset
+GROUP BY ethnicity
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.87b9ddfd-8754-4165-a290-d048e8fc1983"),
     inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
 )
@@ -518,13 +534,6 @@ OR visit_occurrence_id = 1000115681187938502
 SELECT count(1)
 FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
-
-@transform_pandas(
-    Output(rid="ri.vector.main.execute.24ac34c9-54f7-4ac8-84f6-e6db3490d58f"),
-    inpatient_ml_dataset=Input(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1")
-)
-SELECT *
-FROM inpatient_ml_dataset
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
