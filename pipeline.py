@@ -375,7 +375,10 @@ def outcomes(inpatient_ml_dataset):
 )
 def spo2_vs_bad_outcome(all_spo2):
     df = all_spo2.toPandas()
-    sns.histplot(data=df, x="harmonized_value_as_number", hue="bad_outcome")
+    sns.histplot(data=df,
+                 x="harmonized_value_as_number",
+                 hue="bad_outcome",
+                 bins=20)
     plt.show()
 
 @transform_pandas(
