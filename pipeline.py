@@ -396,6 +396,13 @@ def spo2_vs_good_outcome(all_spo2):
     plt.show()
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.3071706a-d720-4714-bd7d-140fb0655589"),
+    first_day_spo2=Input(rid="ri.foundry.main.dataset.e9f49cdc-7301-4e0d-9872-cf75f013921d")
+)
+def unnamed_1(first_day_spo2):
+    
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
     test_lab_filter=Input(rid="ri.foundry.main.dataset.b67797ec-1918-43d6-9a25-321582987d38")
 )
