@@ -158,7 +158,6 @@ def inpatient_encoded_w_imputation(inpatient_encoded):
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.07927bca-b175-4775-9c55-a371af481cc1"),
-    inpatient_charlson=Input(rid="ri.foundry.main.dataset.1da536da-5594-4df1-98cf-d364d2773b3e"),
     inpatient_payer=Input(rid="ri.foundry.main.dataset.d30362c9-a90a-4486-aba9-d67e40c25fd0"),
     inpatient_worst_labs=Input(rid="ri.foundry.main.dataset.c1c6e3b9-83ff-421a-b5c6-75518beec801"),
     inpatients=Input(rid="ri.foundry.main.dataset.a773e078-3908-4189-83a2-2831a8f002f9")
