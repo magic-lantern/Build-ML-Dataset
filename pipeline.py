@@ -370,11 +370,13 @@ def outcomes(inpatient_ml_dataset):
     return df.toPandas()
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.81f34e5d-ee95-484c-a505-2a00e7bf7b13"),
+    Output(rid="ri.foundry.main.dataset.dabbe334-5116-4921-a794-e3f22bdadd8d"),
     all_spo2=Input(rid="ri.foundry.main.dataset.0a5b82ab-f317-4bf0-824a-87bebf4a4b3b")
 )
-def unnamed_1(all_spo2):
-    
+def spo2_vs_bad_outcome(all_spo2):
+    df = all_spo2.toPandas()
+    sns.histplot(data=df, x="spo2", hue="bad_outcome")
+    plt.show()
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.09859ea6-d0cc-448a-8fb8-141705a5e951"),
