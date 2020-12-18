@@ -378,7 +378,7 @@ def spo2_vs_bad_outcome(all_spo2):
     sns.histplot(data=df,
                  x="harmonized_value_as_number",
                  hue="bad_outcome",
-                 bins=25)
+                 bins=50)
     plt.show()
 
 @transform_pandas(
