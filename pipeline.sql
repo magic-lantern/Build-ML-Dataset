@@ -353,10 +353,12 @@ WHERE -- year(measurement_datetime) = 1900
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.3d4fe549-dc8b-4e60-a33a-3d0241371517"),
+    Pivot_on_charlson=Input(rid="ri.foundry.main.dataset.4a9afe05-3616-49ca-a9c3-73d462467053"),
     inpatient_charlson2=Input(rid="ri.foundry.main.dataset.ddd8560b-e059-42dc-89ed-1ad850bfcc82")
 )
-SELECT *
+SELECT DISTINCT person_id FROM 
 FROM inpatient_charlson2
+WHERE person_id NOT IN (SELECT DISTINCT person_id FROM Pivot_on_charlson)
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.87b9ddfd-8754-4165-a290-d048e8fc1983"),
