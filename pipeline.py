@@ -478,6 +478,7 @@ def worst_spo2_vs_outcome(inpatient_ml_dataset):
                  x="spo2",
                  hue="bad_outcome",
                  bins=50,
-                 multiple="dodge")
+                 multiple="dodge",
+                 log_scale=True)
     plt.show()
 
