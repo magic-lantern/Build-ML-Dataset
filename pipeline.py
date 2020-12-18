@@ -474,11 +474,11 @@ def worst_lab_pd(test_lab_filter):
 )
 def worst_spo2_vs_outcome(inpatient_ml_dataset):
     df = inpatient_ml_dataset.toPandas()
-    sns.histplot(data=df,
-                 x="spo2",
-                 hue="bad_outcome",
-                 bins=50,
-                 multiple="dodge",
-                 log_scale=True)
+    p = sns.histplot(data=df,
+                     x="spo2",
+                     hue="bad_outcome",
+                     bins=50,
+                     multiple="dodge")
+    p.set_yscale("log")
     plt.show()
 
