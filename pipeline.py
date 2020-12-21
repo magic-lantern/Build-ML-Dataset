@@ -317,10 +317,15 @@ def inpatient_worst_labs_full( inpatient_labs):
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.dc2883cb-cece-46a4-b4ce-c7cac6de202f"),
-    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566")
+    inpatient_encoded=Input(rid="ri.foundry.main.dataset.c5883466-0d3a-4934-876d-5f7748950566"),
+    missing_charlson=Input(rid="ri.foundry.main.dataset.3d4fe549-dc8b-4e60-a33a-3d0241371517"),
+    missing_gen_eth_race=Input(rid="ri.foundry.main.dataset.67690235-78c7-45b2-b9e7-bc569d5c741e")
 )
-def missing_data_info(inpatient_encoded):
+def missing_data_info(inpatient_encoded, missing_charlson, missing_gen_eth_race):
     df = inpatient_encoded
+    cdf = missing_charlson.toPandas()
+    odf = missing_gen_eth_race.toPandas()
+    
     missing_df = df.isnull().sum().to_frame()
     missing_df = missing_df.rename(columns = {0:'null_count'})
     missing_df['pct_missing'] = missing_df['null_count'] / df.shape[0]
@@ -328,6 +333,39 @@ def missing_data_info(inpatient_encoded):
     missing_df = missing_df.reset_index()
     missing_df = missing_df.rename(columns = {'index':'variable'})
     missing_df = missing_df.sort_values('pct_missing', ascending=False)
+
+    # charlson items are treated as one group
+    missing_df.drop(missing_df.varaible.isin('cancer', 'chf', 'dementia', 'dm', 'dmcx', 'gender_other', 'hiv', 'livermild', 'liversevere', 'mets', 'mi', 'paralysis', 'pud', 'pulmonary', 'pvd', 'q_score', 'renal', 'rheumatic', 'stroke'), inplace=True)
+    temp_df = {'variable': 'charlson',
+               'null_count': None,
+               'pct_missing': cdf.shape[0] /  df.shape[0],
+               'pct_present': 1 - (cdf.shape[0] /  df.shape[0])} 
+    missing_df = dmissing_dff.append(temp_df, ignore_index = True)
+
+    # calculate gender % missing
+    pct_miss = odf[(odf.concept_name == 'gender_concept_name') & (odf.value == 'Other')].rec_count() /  df.shape[0]
+    temp_df = {'variable': 'gender_other',
+               'null_count': None,
+               'pct_missing': pct_miss,
+               'pct_present': 1 - pct_miss} 
+    missing_df = dmissing_dff.append(temp_df, ignore_index = True)
+
+    # calculate race % missing
+    pct_miss = odf[(odf.concept_name == 'race') & (odf.value == 'Missing/Unknown')].rec_count() /  df.shape[0]
+    temp_df = {'variable': 'race_missing_unknown',
+               'null_count': None,
+               'pct_missing': pct_miss,
+               'pct_present': 1 - pct_miss} 
+    missing_df = dmissing_dff.append(temp_df, ignore_index = True)
+
+    # calculate ethnicity % missing
+    pct_miss = odf[(odf.concept_name == 'ethnicity') & (odf.value == 'Missing/Unknown')].rec_count() /  df.shape[0]
+    temp_df = {'variable': 'ethnicity_missing_unknown',
+               'null_count': None,
+               'pct_missing': pct_miss,
+               'pct_present': 1 - pct_miss} 
+    missing_df = dmissing_dff.append(temp_df, ignore_index = True)
+
     return missing_df
 
 @transform_pandas(
