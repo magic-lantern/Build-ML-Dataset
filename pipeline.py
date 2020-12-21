@@ -340,7 +340,7 @@ def missing_data_info(inpatient_encoded, missing_charlson, missing_gen_eth_race)
                'null_count': None,
                'pct_missing': cdf.shape[0] /  df.shape[0],
                'pct_present': 1 - (cdf.shape[0] /  df.shape[0])} 
-    missing_df = dmissing_dff.append(temp_df, ignore_index = True)
+    missing_df = missing_df.append(temp_df, ignore_index = True)
 
     # calculate gender % missing
     pct_miss = odf[(odf.concept_name == 'gender_concept_name') & (odf.value == 'Other')].rec_count() /  df.shape[0]
@@ -348,7 +348,7 @@ def missing_data_info(inpatient_encoded, missing_charlson, missing_gen_eth_race)
                'null_count': None,
                'pct_missing': pct_miss,
                'pct_present': 1 - pct_miss} 
-    missing_df = dmissing_dff.append(temp_df, ignore_index = True)
+    missing_df = missing_df.append(temp_df, ignore_index = True)
 
     # calculate race % missing
     pct_miss = odf[(odf.concept_name == 'race') & (odf.value == 'Missing/Unknown')].rec_count() /  df.shape[0]
@@ -356,7 +356,7 @@ def missing_data_info(inpatient_encoded, missing_charlson, missing_gen_eth_race)
                'null_count': None,
                'pct_missing': pct_miss,
                'pct_present': 1 - pct_miss} 
-    missing_df = dmissing_dff.append(temp_df, ignore_index = True)
+    missing_df = missing_df.append(temp_df, ignore_index = True)
 
     # calculate ethnicity % missing
     pct_miss = odf[(odf.concept_name == 'ethnicity') & (odf.value == 'Missing/Unknown')].rec_count() /  df.shape[0]
@@ -364,7 +364,7 @@ def missing_data_info(inpatient_encoded, missing_charlson, missing_gen_eth_race)
                'null_count': None,
                'pct_missing': pct_miss,
                'pct_present': 1 - pct_miss} 
-    missing_df = dmissing_dff.append(temp_df, ignore_index = True)
+    missing_df = missing_df.append(temp_df, ignore_index = True)
 
     return missing_df
 
