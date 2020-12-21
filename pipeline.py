@@ -335,7 +335,7 @@ def missing_data_info(inpatient_encoded, missing_charlson, missing_gen_eth_race)
     missing_df = missing_df.sort_values('pct_missing', ascending=False)
 
     # charlson items are treated as one group
-    missing_df.drop(missing_df.varaible.isin('cancer', 'chf', 'dementia', 'dm', 'dmcx', 'gender_other', 'hiv', 'livermild', 'liversevere', 'mets', 'mi', 'paralysis', 'pud', 'pulmonary', 'pvd', 'q_score', 'renal', 'rheumatic', 'stroke'), inplace=True)
+    missing_df.drop(missing_df.variable.isin('cancer', 'chf', 'dementia', 'dm', 'dmcx', 'gender_other', 'hiv', 'livermild', 'liversevere', 'mets', 'mi', 'paralysis', 'pud', 'pulmonary', 'pvd', 'q_score', 'renal', 'rheumatic', 'stroke'), inplace=True)
     temp_df = {'variable': 'charlson',
                'null_count': None,
                'pct_missing': cdf.shape[0] /  df.shape[0],
