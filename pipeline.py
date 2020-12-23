@@ -328,7 +328,7 @@ def missing_data_info(inpatient_encoded, missing_charlson, missing_gen_eth_race)
     
     missing_df = df.isnull().sum().to_frame()
     missing_df = missing_df.rename(columns = {0:'null_count'})
-    missing_df['pct_missing'] = missing_df['null_count'] / df.shape[0]
+    missing_df['pct_missing'] = 100 * (missing_df['null_count'] / df.shape[0])
     missing_df['pct_present'] = round((1 - missing_df['null_count'] / df.shape[0]) * 100, 1)
     missing_df = missing_df.reset_index()
     missing_df = missing_df.rename(columns = {'index':'variable'})
