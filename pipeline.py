@@ -338,8 +338,8 @@ def missing_data_info(inpatient_encoded, missing_charlson, missing_gen_eth_race)
     missing_df = missing_df[~missing_df.variable.isin(['cancer', 'chf', 'dementia', 'dm', 'dmcx', 'gender_other', 'hiv', 'livermild', 'liversevere', 'mets', 'mi', 'paralysis', 'pud', 'pulmonary', 'pvd', 'q_score', 'renal', 'rheumatic', 'stroke'])]
     temp_df = {'variable': 'charlson',
                'null_count': None,
-               'pct_missing': cdf.shape[0] /  df.shape[0],
-               'pct_present': 1 - (cdf.shape[0] /  df.shape[0])} 
+               'pct_missing': 100 * (cdf.shape[0] /  df.shape[0]),
+               'pct_present': 100 * (1 - (cdf.shape[0] /  df.shape[0]))} 
     missing_df = missing_df.append(temp_df, ignore_index = True)
 
     # calculate gender % missing
