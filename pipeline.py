@@ -61,6 +61,7 @@ def inpatient_encoded(inpatient_ml_dataset):
     sdf = sdf.drop('invasive_ventilation')
     sdf = sdf.drop('testcount')
     sdf = sdf.drop('bad_outcome')
+    sdf = sdf.drop('region')
     # before this have filtered to patients affected by COVID
     sdf = sdf.drop('positive_covid_test', 'negative_covid_test', 'suspected_covid')
 
@@ -430,7 +431,8 @@ def outcomes(inpatient_ml_dataset):
                    'aki_in_hospital',
                    'invasive_ventilation',
                    'testcount',
-                   'bad_outcome')
+                   'bad_outcome',
+                   'region')
     return df.toPandas()
 
 @transform_pandas(
