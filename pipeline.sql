@@ -536,6 +536,13 @@ FROM inpatient_bestVisitPossible
 WHERE visit_start_datetime IS NOT NULL
 
 @transform_pandas(
+    Output(rid="ri.vector.main.execute.0dba7b5e-cca0-49b5-9f30-33b494821734"),
+    Missing_regions_replaced=Input(rid="ri.foundry.main.dataset.2935a4c3-66c4-422c-b87c-5f0851c2462b")
+)
+SELECT *
+FROM Missing_regions_replaced
+
+@transform_pandas(
     Output(rid="ri.foundry.main.dataset.8b112ce6-7e66-4752-b95a-bb17b1a64791"),
     bestVisitPossible=Input(rid="ri.foundry.main.dataset.18864c06-114d-428e-8be9-170ebdc97729")
 )
