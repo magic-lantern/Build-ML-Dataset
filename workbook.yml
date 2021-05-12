@@ -1,6 +1,7 @@
 ---
 rid: "ri.vector.main.workbook.1ed2139a-aec7-47fd-b241-ecdbe7c1fe28"
 repositoryRid: "ri.stemma.main.repository.ce5ef116-5b1c-4129-9dc6-25940866d954"
+environmentRepositoryRid: null
 outputFolderRid: "ri.compass.main.folder.1fe9df43-9da9-467c-ab4e-195a72f1ab78"
 comparisonParentFolderRid: "ri.compass.main.folder.ec177cfc-1fce-4f6d-834d-8568ec13d751"
 legacyVectorLanguage: null
